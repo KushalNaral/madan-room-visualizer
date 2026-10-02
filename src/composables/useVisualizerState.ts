@@ -1,8 +1,8 @@
 import { computed, reactive, ref, shallowRef, watch } from 'vue'
 import type { ProductSource } from '../data/ProductSource'
-import { estimate, type Estimate } from '../lib/estimate'
+import { estimate, surfaceSize, type Estimate } from '../lib/estimate'
 import { parseSelections, serializeSelections } from '../lib/selectionUrl'
-import type { LookPreset, Product, Room, Selection, Surface, Variant } from '../types'
+import type { LookPreset, Product, Quote, QuoteLine, Room, Selection, Surface, Variant } from '../types'
 
 export interface AppliedItem {
   surface: Surface
@@ -27,11 +27,27 @@ export interface VisualizerStateOptions {
   syncUrl?: boolean
   /** localStorage namespace for saved looks and recents; `false` disables persistence. */
   storageKey?: string | false
+  /** Debounce before asking the source for quotes (ms). */
+  quoteDelay?: number
 }
 
 const ROOM_PARAM = 'room'
 const LOOK_PARAM = 'look'
 const HISTORY_LIMIT = 60
+
+/** Identifies what a quote was computed for; a stale quote is never shown. */
+export const quoteKey = (l: QuoteLine) => `${l.surfaceId}|${l.variantId}|${l.widthCm}x${l.heightCm}|${l.areaM2 ?? ''}`
+
+export function quoteLine(surface: Surface, sel: Pick<Selection, 'productId' | 'variantId'>): QuoteLine {
+  const size = surfaceSize(surface)
+  return { surfaceId: surface.id, productId: sel.productId, variantId: sel.variantId, widthCm: size.w, heightCm: size.h, areaM2: surface.areaM2 }
+}
+
+/** Server quote when it matches the current line, else the local estimate (flagged pending while a quote loads). */
+export function mergeEstimate(local: Estimate, quote: Quote | undefined, pending: boolean): Estimate {
+  if (quote) return { areaM2: local.areaM2, units: quote.units, unit: quote.unit, total: quote.total, label: quote.label, cart: quote.cart }
+  return pending ? { ...local, pending: true } : local
+}
 
 type Snapshot = Record<string, Selection>
 
@@ -113,13 +129,20 @@ export function useVisualizerState(source: ProductSource, opts: VisualizerStateO
     () => room.value?.surfaces.find((s) => s.id === selectedSurfaceId.value) ?? null,
   )
 
+  // ---- Server quotes (optional; keyed by quoteKey so they never go stale)
+  const quotes = reactive(new Map<string, Quote>())
+  const quoting = ref(false)
+
   const applied = computed<AppliedItem[]>(() => {
     const out: AppliedItem[] = []
     for (const surface of room.value?.surfaces ?? []) {
       const sel = selections[surface.id]
       const product = sel && products.get(sel.productId)
       const variant = product?.variants.find((v) => v.id === sel!.variantId)
-      if (product && variant) out.push({ surface, product, variant, selection: sel, estimate: estimate(surface, product, variant) })
+      if (!product || !variant) continue
+      const local = estimate(surface, product, variant)
+      const est = source.quote ? mergeEstimate(local, quotes.get(quoteKey(quoteLine(surface, sel))), quoting.value) : local
+      out.push({ surface, product, variant, selection: sel, estimate: est })
     }
     return out
   })
@@ -132,6 +155,42 @@ export function useVisualizerState(source: ProductSource, opts: VisualizerStateO
     if (!s?.group || !room.value) return []
     return room.value.surfaces.filter((x) => x.group === s.group && x.id !== s.id)
   })
+
+  if (source.quote) {
+    let timer: ReturnType<typeof setTimeout> | undefined
+    let seq = 0
+    const missingLines = () =>
+      (room.value?.surfaces ?? []).flatMap((surface) => {
+        const sel = selections[surface.id]
+        if (!sel || !products.has(sel.productId)) return []
+        const line = quoteLine(surface, sel)
+        return quotes.has(quoteKey(line)) ? [] : [line]
+      })
+    watch(
+      () => missingLines().map(quoteKey).join(','),
+      (keys) => {
+        clearTimeout(timer)
+        if (!keys) return void (quoting.value = false)
+        quoting.value = true
+        timer = setTimeout(async () => {
+          const lines = missingLines()
+          const mine = ++seq
+          try {
+            const result = await source.quote!(lines)
+            for (const q of result) {
+              const line = lines.find((l) => l.surfaceId === q.surfaceId)
+              if (line) quotes.set(quoteKey(line), q)
+            }
+          } catch {
+            /* keep the local estimates */
+          } finally {
+            if (mine === seq) quoting.value = false
+          }
+        }, opts.quoteDelay ?? 300)
+      },
+      { immediate: true },
+    )
+  }
 
   // ---- Products
   function rememberProduct(product: Product) {
@@ -294,6 +353,7 @@ export function useVisualizerState(source: ProductSource, opts: VisualizerStateO
     applied,
     appliedBySurface,
     totalPrice,
+    quoting,
     loadingRoom,
     error,
     products,

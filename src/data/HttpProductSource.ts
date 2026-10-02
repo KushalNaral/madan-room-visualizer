@@ -1,4 +1,4 @@
-import type { Category, Page, Product, ProductQuery, Room } from '../types'
+import type { Category, Page, Product, ProductQuery, Quote, QuoteLine, Room } from '../types'
 import type { ProductSource } from './ProductSource'
 
 export interface HttpProductSourceOptions {
@@ -22,6 +22,7 @@ export interface HttpProductSourceOptions {
  *   GET /products/:id
  *   GET /rooms
  *   GET /rooms/:id
+ *   POST /quote  { lines: QuoteLine[] }                         → Quote[]
  */
 export class HttpProductSource implements ProductSource {
   private readonly mapProduct: (raw: unknown) => Product
@@ -37,8 +38,12 @@ export class HttpProductSource implements ProductSource {
     this.mapCategory = opts.mapCategory ?? ((r) => r as Category)
   }
 
+  private url(path: string) {
+    return new URL(path.replace(/^\//, ''), this.opts.baseUrl.replace(/\/?$/, '/'))
+  }
+
   private async get<T>(path: string, params?: Record<string, string | number | undefined>): Promise<T> {
-    const url = new URL(path.replace(/^\//, ''), this.opts.baseUrl.replace(/\/?$/, '/'))
+    const url = this.url(path)
     for (const [k, v] of Object.entries(params ?? {})) {
       if (v !== undefined && v !== '') url.searchParams.set(k, String(v))
     }
@@ -82,5 +87,15 @@ export class HttpProductSource implements ProductSource {
   async getRoom(id: string) {
     const raw = await this.getOptional<unknown>(`rooms/${encodeURIComponent(id)}`)
     return raw === undefined ? undefined : this.mapRoom(raw)
+  }
+
+  async quote(lines: QuoteLine[]): Promise<Quote[]> {
+    const url = this.url('quote')
+    const headers = new Headers(this.opts.init?.headers)
+    headers.set('Content-Type', 'application/json')
+    headers.set('Accept', 'application/json')
+    const res = await fetch(url, { ...this.opts.init, method: 'POST', headers, body: JSON.stringify({ lines }) })
+    if (!res.ok) throw new Error(`POST ${url.pathname} failed: ${res.status}`)
+    return res.json() as Promise<Quote[]>
   }
 }

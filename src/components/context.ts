@@ -10,6 +10,8 @@ export interface VisualizerContext {
   state: VisualizerState
   source: ProductSource
   currency: string
+  /** Money formatter (the host's `formatPrice` prop, or Intl with `currency`). */
+  formatPrice: (value: number) => string
   renderer: ShallowRef<RoomRenderer | null>
   /** Per-surface geometry (bbox, anchor) for the loaded room. */
   surfaceInfo: ShallowRef<Map<string, SurfaceInfo>>
@@ -25,7 +27,7 @@ export interface VisualizerContext {
     apply(product: Product, variant: Variant, opts?: { toGroup?: boolean }): void
     openProduct(product: Product): void
     addToCart(items: AppliedItem[]): void
-    viewProduct(product: Product): void
+    viewProduct(product: Product, variant?: Variant): void
     download(kind?: 'image' | 'moodboard'): Promise<void>
     share(): Promise<void>
     zoomBy(factor: number): void

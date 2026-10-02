@@ -1,6 +1,5 @@
 import type { AppliedItem } from '../composables/useVisualizerState'
 import { swatchUrl } from '../render/textures'
-import { formatPrice } from './utils'
 
 function loadImg(src: string) {
   return new Promise<HTMLImageElement>((resolve, reject) => {
@@ -22,7 +21,7 @@ export async function renderMoodboard(opts: {
   roomName: string
   items: AppliedItem[]
   total: number
-  currency: string
+  formatPrice: (value: number) => string
   brand?: string
 }): Promise<Blob> {
   const { room, items } = opts
@@ -93,7 +92,7 @@ export async function renderMoodboard(opts: {
       ctx.textAlign = 'right'
       ctx.fillStyle = '#1c1a17'
       ctx.font = font(600, 21)
-      ctx.fillText(formatPrice(a.estimate.total, opts.currency), colX + colW, y + 26)
+      ctx.fillText(opts.formatPrice(a.estimate.total), colX + colW, y + 26)
       ctx.textAlign = 'left'
     }
     y += 132
@@ -111,7 +110,7 @@ export async function renderMoodboard(opts: {
   ctx.textAlign = 'right'
   ctx.fillStyle = '#1c1a17'
   ctx.font = font(750, 36)
-  ctx.fillText(formatPrice(opts.total, opts.currency), colX + colW, y + 60)
+  ctx.fillText(opts.formatPrice(opts.total), colX + colW, y + 60)
   ctx.textAlign = 'left'
 
   return new Promise((resolve, reject) => c.toBlob((b) => (b ? resolve(b) : reject(new Error('Export failed'))), 'image/jpeg', 0.92))

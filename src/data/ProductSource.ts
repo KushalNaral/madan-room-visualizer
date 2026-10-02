@@ -1,4 +1,4 @@
-import type { Category, Page, Product, ProductQuery, Room } from '../types'
+import type { Category, Page, Product, ProductQuery, Quote, QuoteLine, Room } from '../types'
 
 /**
  * Everything the visualizer needs from a catalog. Madan's dedicated API will
@@ -10,6 +10,11 @@ export interface ProductSource {
   getProduct(id: string): Promise<Product | undefined>
   listRooms(): Promise<Room[]>
   getRoom(id: string): Promise<Room | undefined>
+  /**
+   * Optional server-side pricing. When present, its quotes replace the local
+   * `estimate()` for applied surfaces (the local one shows while it loads).
+   */
+  quote?(lines: QuoteLine[]): Promise<Quote[]>
 }
 
 export function paginate<T>(all: T[], page = 1, pageSize = 24): Page<T> {

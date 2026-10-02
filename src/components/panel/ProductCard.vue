@@ -2,14 +2,14 @@
 import { computed } from 'vue'
 import { Check } from 'lucide-vue-next'
 import { unitSuffix } from '../../lib/estimate'
-import { cn, formatPrice } from '../../lib/utils'
+import { cn } from '../../lib/utils'
 import type { Product } from '../../types'
 import { useVisualizer } from '../context'
 import Swatch from '../Swatch.vue'
 
 const props = defineProps<{ product: Product; activeVariantId?: string | null; disabled?: boolean }>()
 const emit = defineEmits<{ open: [] }>()
-const { currency, renderer } = useVisualizer()
+const { formatPrice, renderer } = useVisualizer()
 
 const hero = computed(() => props.product.variants.find((v) => v.id === props.activeVariantId) ?? props.product.variants[0])
 const MAX_DOTS = 5
@@ -36,6 +36,11 @@ const MAX_DOTS = 5
           :key="b"
           class="rounded-full bg-background/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-foreground shadow-sm backdrop-blur"
         >{{ b }}</span>
+        <span
+          v-if="hero.approximate"
+          class="rounded-full bg-background/90 px-2 py-0.5 text-[10px] font-medium text-muted-foreground shadow-sm backdrop-blur"
+          title="Preview uses the product photo, not a material scan"
+        >Approx.</span>
       </span>
       <span v-if="activeVariantId" class="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground shadow">
         <Check class="h-3.5 w-3.5" :stroke-width="3" />
@@ -48,7 +53,7 @@ const MAX_DOTS = 5
       <span class="line-clamp-1 text-sm font-semibold">{{ product.name }}</span>
       <span class="flex items-center justify-between gap-2">
         <span v-if="product.variants[0]?.price" class="text-xs text-muted-foreground">
-          <span class="font-semibold text-foreground">{{ formatPrice(product.variants[0].price, currency) }}</span>{{ unitSuffix(product) }}
+          <span class="font-semibold text-foreground">{{ formatPrice(product.variants[0].price) }}</span>{{ unitSuffix(product) }}
         </span>
         <span class="flex items-center -space-x-1">
           <span

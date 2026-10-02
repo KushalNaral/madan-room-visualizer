@@ -34,16 +34,22 @@ const props = withDefaults(
     storageKey?: string | false
     /** Render the built-in toast container (turn off if the host app has one). */
     toasts?: boolean
+    /** Formats every price shown (summary, cards, moodboard). Defaults to Intl with `currency`. */
+    formatPrice?: (value: number) => string
+    /** Toast "Added to cart" after `addToCart`. Turn off when the host confirms or adds itself. */
+    cartFeedback?: boolean
   }>(),
-  { syncUrl: false, currency: 'INR', brand: 'Madan Furnishers', toasts: true },
+  { syncUrl: false, currency: 'INR', brand: 'Madan Furnishers', toasts: true, cartFeedback: true },
 )
 
 const emit = defineEmits<{
   variantApplied: [payload: { surface: Surface; product: Product; variant: Variant }]
   addToCart: [items: AppliedItem[]]
-  viewProduct: [product: Product]
+  viewProduct: [product: Product, variant: Variant | undefined]
   roomChange: [roomId: string]
 }>()
+
+const money = (value: number) => (props.formatPrice ? props.formatPrice(value) : formatPrice(value, props.currency))
 
 const state = useVisualizerState(props.source, {
   initialRoomId: props.initialRoomId,
@@ -85,6 +91,7 @@ const ctx: VisualizerContext = {
   state,
   source: props.source,
   currency: props.currency,
+  formatPrice: money,
   renderer,
   surfaceInfo,
   roomReady,
@@ -101,13 +108,15 @@ const ctx: VisualizerContext = {
     },
     addToCart(items) {
       emit('addToCart', items)
+      if (!props.cartFeedback) return
       const total = items.reduce((s, i) => s + (i.estimate.total ?? 0), 0)
       toast.success(items.length === 1 ? `Added ${items[0].product.name} to cart` : `Added ${items.length} items to cart`, {
-        description: total ? `Estimated ${formatPrice(total, props.currency)}` : undefined,
+        description: total ? `Estimated ${money(total)}` : undefined,
       })
     },
-    viewProduct(product) {
-      emit('viewProduct', product)
+    viewProduct(product, variant) {
+      const sel = Object.values(state.selections).find((s) => s.productId === product.id)
+      emit('viewProduct', product, variant ?? product.variants.find((v) => v.id === sel?.variantId) ?? product.variants[0])
     },
     async download(kind = 'image') {
       const r = renderer.value
@@ -122,7 +131,7 @@ const ctx: VisualizerContext = {
                 roomName: room.name,
                 items: state.applied.value,
                 total: state.totalPrice.value,
-                currency: props.currency,
+                formatPrice: money,
                 brand: props.brand,
               })
             : await r.toBlob('image/jpeg', 0.94)
@@ -252,7 +261,7 @@ const styledCount = computed(() => state.applied.value.length)
               @click="tab = 'summary'"
             >
               <span>{{ styledCount }} {{ styledCount === 1 ? 'item' : 'items' }} in your look</span>
-              <span class="tabular-nums">{{ formatPrice(state.totalPrice.value, currency) }} →</span>
+              <span class="tabular-nums">{{ money(state.totalPrice.value) }} →</span>
             </button>
           </div>
         </Tabs>

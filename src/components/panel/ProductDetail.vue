@@ -2,7 +2,7 @@
 import { computed, shallowRef, watch } from 'vue'
 import { ArrowLeft, ExternalLink, Layers, Ruler, ShoppingCart, Sparkles } from 'lucide-vue-next'
 import { estimate, unitSuffix } from '../../lib/estimate'
-import { cn, formatPrice } from '../../lib/utils'
+import { cn } from '../../lib/utils'
 import type { Product, Variant } from '../../types'
 import { useVisualizer } from '../context'
 import { Button } from '../ui/button'
@@ -11,7 +11,7 @@ import PatternControls from './PatternControls.vue'
 
 const props = defineProps<{ productId: string }>()
 const ctx = useVisualizer()
-const { state, currency, ui, renderer } = ctx
+const { state, formatPrice, ui, renderer } = ctx
 const { selectedSurface } = state
 
 const product = shallowRef<Product | undefined>(state.products.get(props.productId))
@@ -34,9 +34,14 @@ const accepts = computed(() => !!product.value && !!selectedSurface.value?.accep
 const groupTargets = computed(() =>
   state.groupMates.value.filter((s) => product.value && s.accepts.includes(product.value.categoryId)),
 )
-const est = computed(() =>
-  selectedSurface.value && product.value && active.value ? estimate(selectedSurface.value, product.value, active.value) : null,
-)
+// The applied line carries the server quote; other colourways fall back to the local estimate.
+const est = computed(() => {
+  const surface = selectedSurface.value
+  if (!surface || !product.value || !active.value) return null
+  const item = state.appliedBySurface.value.get(surface.id)
+  if (item && item.variant.id === active.value.id) return item.estimate
+  return estimate(surface, product.value, active.value)
+})
 const FINISH: Record<string, string> = { matte: 'Matt', satin: 'Satin', gloss: 'Gloss' }
 
 function pick(v: Variant) {
@@ -72,7 +77,10 @@ function addToCart() {
           <p class="text-xs opacity-80">{{ active.sku }}</p>
           <p class="text-base font-semibold">{{ active.name }}</p>
         </div>
-        <span class="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-medium backdrop-blur">{{ FINISH[active.finish] }}</span>
+        <span class="flex gap-1">
+          <span v-if="active.approximate" class="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-medium backdrop-blur" title="Preview uses the product photo, not a material scan">Approx. preview</span>
+          <span class="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-medium backdrop-blur">{{ FINISH[active.finish] }}</span>
+        </span>
       </div>
     </div>
 
@@ -83,7 +91,7 @@ function addToCart() {
           <h3 class="text-lg font-semibold leading-tight">{{ product.name }}</h3>
         </div>
         <p v-if="active.price" class="shrink-0 text-right">
-          <span class="text-lg font-bold">{{ formatPrice(active.price, currency) }}</span>
+          <span class="text-lg font-bold">{{ formatPrice(active.price) }}</span>
           <span class="block text-xs text-muted-foreground">{{ unitSuffix(product).replace(' / ', 'per ') || 'each' }}</span>
         </p>
       </div>
@@ -145,13 +153,13 @@ function addToCart() {
       <div v-if="est" class="rounded-xl bg-muted/60 p-3">
         <dt class="flex items-center gap-1.5 text-xs text-muted-foreground"><Layers class="h-3.5 w-3.5" /> For this {{ selectedSurface?.label.toLowerCase() }}</dt>
         <dd class="mt-0.5 font-medium">{{ est.label }}</dd>
-        <dd v-if="est.total" class="text-xs text-muted-foreground">≈ {{ formatPrice(est.total, currency) }}</dd>
+        <dd v-if="est.total" class="text-xs text-muted-foreground">≈ {{ formatPrice(est.total) }}</dd>
       </div>
     </dl>
 
     <div class="flex gap-2">
       <Button class="flex-1" :disabled="!isOnSurface" @click="addToCart"><ShoppingCart /> Add to cart</Button>
-      <Button variant="outline" @click="ctx.actions.viewProduct(product)"><ExternalLink /> Details</Button>
+      <Button variant="outline" @click="ctx.actions.viewProduct(product, active)"><ExternalLink /> Details</Button>
     </div>
   </div>
   <div v-else class="space-y-3">

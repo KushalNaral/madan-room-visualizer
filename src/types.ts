@@ -18,7 +18,7 @@ export type Finish = 'matte' | 'satin' | 'gloss'
 
 /** How a variant is sold — drives quantity estimates in "Your look". */
 export interface Pricing {
-  unit: 'litre' | 'roll' | 'm²' | 'metre' | 'piece' | 'box'
+  unit: 'litre' | 'roll' | 'm²' | 'sqft' | 'metre' | 'piece' | 'box'
   /** m² one unit covers (paint: per litre incl. 2 coats; rolls; boxes). Omit for per-piece items. */
   coverageM2?: number
   /** Extra allowance for cutting/pattern matching, e.g. 0.1 for +10%. */
@@ -28,6 +28,8 @@ export interface Pricing {
 export interface Variant {
   id: string
   sku: string
+  /** Storefront slug, for linking to the product page. */
+  slug?: string
   name: string
   colorHex: string
   /**
@@ -43,6 +45,8 @@ export interface Variant {
   /** Price per pricing unit. */
   price?: number
   thumbnailUrl?: string
+  /** The texture is a stand-in (e.g. the product photo), not a real tile scan. */
+  approximate?: boolean
 }
 
 export interface Product {
@@ -95,6 +99,11 @@ export interface Surface {
   patches: TexturePatch[]
   /** Paintable/coverable area, for quantity estimates. */
   areaM2?: number
+  /**
+   * Real-world size of the surface (window opening, floor, wall), sent to the
+   * source's `quote`. Defaults to the largest patch's `widthCm × heightCm`.
+   */
+  sizeCm?: { w: number; h: number }
   /** Where to place the hotspot pin. */
   anchor?: Point
 }
@@ -150,4 +159,26 @@ export interface Selection {
   /** Pattern shift in cm. */
   offsetX?: number
   offsetY?: number
+}
+
+/** One applied surface the source should price (see `ProductSource.quote`). */
+export interface QuoteLine {
+  surfaceId: string
+  productId: string
+  variantId: string
+  widthCm: number
+  heightCm: number
+  areaM2?: number
+}
+
+/** A priced line, as the source computes it. */
+export interface Quote {
+  surfaceId: string
+  units: number
+  unit: string
+  total: number | null
+  /** Human readable, e.g. "6.4 metres · 5 × 8 ft". */
+  label: string
+  /** Opaque data for the host (e.g. a ready-made cart line). */
+  cart?: unknown
 }

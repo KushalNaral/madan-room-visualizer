@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { LayoutGrid, Share2, ShoppingBag, ShoppingCart, X } from 'lucide-vue-next'
-import { formatPrice } from '../../lib/utils'
 import { useVisualizer } from '../context'
 import { Button } from '../ui/button'
 import Swatch from '../Swatch.vue'
 
 const ctx = useVisualizer()
-const { state, currency, ui } = ctx
+const { state, formatPrice, ui } = ctx
 
 function focus(surfaceId: string, productId: string) {
   state.selectedSurfaceId.value = surfaceId
@@ -37,7 +36,7 @@ function focus(surfaceId: string, productId: string) {
           <span class="block truncate text-xs text-muted-foreground">{{ a.variant.name }} · {{ a.estimate.label }}</span>
         </button>
         <span class="shrink-0 text-right">
-          <span v-if="a.estimate.total" class="block text-sm font-semibold tabular-nums">{{ formatPrice(a.estimate.total, currency) }}</span>
+          <span v-if="a.estimate.total" class="block text-sm font-semibold tabular-nums transition-opacity" :class="a.estimate.pending && 'opacity-50'">{{ formatPrice(a.estimate.total) }}</span>
           <button
             type="button"
             aria-label="Remove"
@@ -53,10 +52,10 @@ function focus(surfaceId: string, productId: string) {
     <div class="space-y-3 rounded-2xl bg-muted/60 p-4">
       <div class="flex items-baseline justify-between">
         <span class="text-sm text-muted-foreground">Estimated total</span>
-        <span class="text-2xl font-bold tabular-nums">{{ formatPrice(state.totalPrice.value, currency) }}</span>
+        <span class="text-2xl font-bold tabular-nums transition-opacity" :class="state.quoting.value && 'opacity-50'" :aria-busy="state.quoting.value">{{ formatPrice(state.totalPrice.value) }}</span>
       </div>
       <p class="text-xs text-muted-foreground">
-        Quantities include cutting allowance and are based on the room's measured areas. Final quote confirmed in store.
+        Prices are for this room's sizes. You can enter your own measurements before adding to the cart.
       </p>
       <Button class="w-full" size="lg" @click="ctx.actions.addToCart(state.applied.value)"><ShoppingCart /> Add all to cart</Button>
       <div class="grid grid-cols-2 gap-2">
