@@ -176,6 +176,8 @@ There are two routes:
    </template>
    ```
 
+   For shoppers' own photos, pass `audience="shopper"` (hides ids, groups, room JSON and the pricing size) and `:max-photo-side="1600"` (phone photos are scaled down on upload). Madan's storefront does this behind "Use your own photo".
+
    Rooms built this way use polygon masks (even-odd, holes included) and photo-based relighting.
 2. **Render.** For the highest fidelity, render rooms the way the mock rooms are made. [`scripts/scene`](scripts/scene) is a small multi-threaded path tracer (BVH, area/sun/lamp lights, AO, edge-aware denoising). It exports the photo, a 2× surface ID map, an exact **shading map**, the per-surface mesh/quad patches projected from 3D, anchors, areas and curated presets. Scenes are plain TypeScript; see [`rooms/living.ts`](scripts/scene/rooms/living.ts). The editor opens these read-only and can convert them to editable masks.
 
