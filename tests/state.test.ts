@@ -107,7 +107,7 @@ describe('server quotes', () => {
     async quote(lines: QuoteLine[]): Promise<Quote[]> {
       this.calls.push(lines)
       if (this.fail) throw new Error('offline')
-      return lines.map((l) => ({ surfaceId: l.surfaceId, units: 7, unit: 'metre', total: 7000, label: `7 metres · ${l.widthCm}cm`, cart: { variant_id: l.variantId } }))
+      return lines.map((l) => ({ surfaceId: l.surfaceId, units: 7, unit: 'metre', total: 7000, label: `7 metres · ${l.widthCm}cm`, breakdown: ['7 m × Rs 1,000/m'], cart: { variant_id: l.variantId } }))
     }
   }
 
@@ -129,6 +129,7 @@ describe('server quotes', () => {
     const est = state.applied.value[0].estimate
     expect(est.total).toBe(7000)
     expect(est.cart).toEqual({ variant_id: product.variants[0].id })
+    expect(est.breakdown).toEqual(['7 m × Rs 1,000/m'])
     expect(state.totalPrice.value).toBe(7000)
     expect(src.calls).toHaveLength(1)
     expect(src.calls[0][0]).toMatchObject({ surfaceId: 'sofa', productId: product.id, variantId: product.variants[0].id })

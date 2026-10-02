@@ -26,7 +26,8 @@ function focus(surfaceId: string, productId: string) {
 
   <div v-else class="space-y-4">
     <ul class="divide-y divide-border overflow-hidden rounded-2xl border border-border">
-      <li v-for="a in state.applied.value" :key="a.surface.id" class="group flex items-center gap-3 bg-card p-3 transition-colors hover:bg-accent/50">
+      <li v-for="a in state.applied.value" :key="a.surface.id" class="group bg-card p-3 transition-colors hover:bg-accent/50">
+       <div class="flex items-center gap-3">
         <button type="button" class="shrink-0" @click="focus(a.surface.id, a.product.id)">
           <Swatch :variant="a.variant" :size="48" class="h-12 w-12 rounded-lg ring-1 ring-border" />
         </button>
@@ -46,6 +47,13 @@ function focus(surfaceId: string, productId: string) {
             <X class="h-3.5 w-3.5" />
           </button>
         </span>
+       </div>
+        <details v-if="a.estimate.breakdown?.length" class="mt-1.5 pl-[3.75rem] text-xs text-muted-foreground">
+          <summary class="cursor-pointer select-none font-medium hover:text-foreground">How we priced this</summary>
+          <ul class="mt-1 space-y-0.5">
+            <li v-for="(step, i) in a.estimate.breakdown" :key="i">{{ step }}</li>
+          </ul>
+        </details>
       </li>
     </ul>
 
@@ -55,7 +63,7 @@ function focus(surfaceId: string, productId: string) {
         <span class="text-2xl font-bold tabular-nums transition-opacity" :class="state.quoting.value && 'opacity-50'" :aria-busy="state.quoting.value">{{ formatPrice(state.totalPrice.value) }}</span>
       </div>
       <p class="text-xs text-muted-foreground">
-        Prices are for this room's sizes. You can enter your own measurements before adding to the cart.
+        Prices use our measuring rules (fullness, hems, roll sizes) for this room's sizes. Enter your own measurements before adding to the cart for your exact price.
       </p>
       <Button class="w-full" size="lg" @click="ctx.actions.addToCart(state.applied.value)"><ShoppingCart /> Add all to cart</Button>
       <div class="grid grid-cols-2 gap-2">

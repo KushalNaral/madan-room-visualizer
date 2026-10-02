@@ -184,6 +184,8 @@ export interface Quote {
   total: number | null
   /** Human readable, e.g. "6.4 metres · 5 × 8 ft". */
   label: string
+  /** How the total was worked out, one step per line (shown to shoppers). */
+  breakdown?: string[]
   /** Opaque data for the host (e.g. a ready-made cart line). */
   cart?: unknown
 }

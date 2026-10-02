@@ -45,7 +45,7 @@ export function quoteLine(surface: Surface, sel: Pick<Selection, 'productId' | '
 
 /** Server quote when it matches the current line, else the local estimate (flagged pending while a quote loads). */
 export function mergeEstimate(local: Estimate, quote: Quote | undefined, pending: boolean): Estimate {
-  if (quote) return { areaM2: local.areaM2, units: quote.units, unit: quote.unit, total: quote.total, label: quote.label, cart: quote.cart }
+  if (quote) return { areaM2: local.areaM2, units: quote.units, unit: quote.unit, total: quote.total, label: quote.label, breakdown: quote.breakdown, cart: quote.cart }
   return pending ? { ...local, pending: true } : local
 }
 

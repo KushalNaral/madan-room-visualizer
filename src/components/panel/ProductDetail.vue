@@ -154,6 +154,12 @@ function addToCart() {
         <dt class="flex items-center gap-1.5 text-xs text-muted-foreground"><Layers class="h-3.5 w-3.5" /> For this {{ selectedSurface?.label.toLowerCase() }}</dt>
         <dd class="mt-0.5 font-medium">{{ est.label }}</dd>
         <dd v-if="est.total" class="text-xs text-muted-foreground">≈ {{ formatPrice(est.total) }}</dd>
+        <dd v-if="est.breakdown?.length" class="mt-1">
+          <details class="text-[11px] text-muted-foreground">
+            <summary class="cursor-pointer select-none hover:text-foreground">How we priced this</summary>
+            <ul class="mt-1 space-y-0.5"><li v-for="(step, i) in est.breakdown" :key="i">{{ step }}</li></ul>
+          </details>
+        </dd>
       </div>
     </dl>
 

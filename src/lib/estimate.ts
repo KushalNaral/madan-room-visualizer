@@ -7,6 +7,8 @@ export interface Estimate {
   total: number | null
   /** Human readable, e.g. "4 litres · 18.4 m²". */
   label: string
+  /** How a server quote worked the total out, step by step. */
+  breakdown?: string[]
   /** Opaque host data from a server quote (e.g. a cart line). */
   cart?: unknown
   /** A server quote for this line is still loading; the numbers are local. */
