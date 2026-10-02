@@ -60,8 +60,12 @@ const props = withDefaults(
     autosaveKey?: string | false
     saving?: boolean
     saveLabel?: string
+    /** 'shopper' hides staff-only parts (ids, groups, room JSON, preview with products). */
+    audience?: 'staff' | 'shopper'
+    /** Photos larger than this (long side, px) are scaled down on upload; 0 keeps them as they are. */
+    maxPhotoSide?: number
   }>(),
-  { room: null, categories: () => [], autosaveKey: 'madan-room-editor', saving: false, saveLabel: 'Save room' },
+  { room: null, categories: () => [], autosaveKey: 'madan-room-editor', saving: false, saveLabel: 'Save room', audience: 'staff', maxPhotoSide: 0 },
 )
 const emit = defineEmits<{
   save: [room: Room, files: { image?: File }]
@@ -113,13 +117,30 @@ watch(
   { immediate: true },
 )
 
+/** Scales a large photo down (phone photos are often 12 MP) and re-encodes it as JPEG. */
+async function shrink(file: File, img: HTMLImageElement): Promise<{ file: File; width: number; height: number }> {
+  const max = props.maxPhotoSide
+  const s = max ? fitScale(img.naturalWidth, img.naturalHeight, max) : 1
+  if (s >= 1) return { file, width: img.naturalWidth, height: img.naturalHeight }
+  const c = document.createElement('canvas')
+  c.width = Math.round(img.naturalWidth * s)
+  c.height = Math.round(img.naturalHeight * s)
+  c.getContext('2d')!.drawImage(img, 0, 0, c.width, c.height)
+  const blob = await new Promise<Blob | null>((r) => c.toBlob(r, 'image/jpeg', 0.88))
+  if (!blob) return { file, width: img.naturalWidth, height: img.naturalHeight }
+  return { file: new File([blob], file.name.replace(/\.[^.]+$/, '') + '.jpg', { type: 'image/jpeg' }), width: c.width, height: c.height }
+}
+
 function openFile(file: File | undefined | null) {
   if (!file || !file.type.startsWith('image/')) return
-  const url = URL.createObjectURL(file)
+  const original = URL.createObjectURL(file)
   const img = new Image()
-  img.onload = () => {
-    imageFile.value = file
-    state.setImage(url, img.naturalWidth, img.naturalHeight, file.name.replace(/\.[^.]+$/, ''))
+  img.onload = async () => {
+    const out = await shrink(file, img)
+    const url = out.file === file ? original : URL.createObjectURL(out.file)
+    if (url !== original) URL.revokeObjectURL(original)
+    imageFile.value = out.file
+    state.setImage(url, out.width, out.height, file.name.replace(/\.[^.]+$/, ''))
     photoError.value = null
     step.value = 'detect'
   }
@@ -273,7 +294,7 @@ const problems = computed(() => {
     if (st.planeIssue) out.push(`${s.label}: the plane corners look wrong.`)
   }
   const ids = state.doc.surfaces.map((s) => s.id)
-  if (new Set(ids).size !== ids.length) out.push('Two surfaces have the same id (Advanced).')
+  if (new Set(ids).size !== ids.length && props.audience === 'staff') out.push('Two surfaces have the same id (Advanced).')
   return out
 })
 const canSave = computed(() => !!state.doc.image.url && room.value.surfaces.length > 0 && !props.saving)
@@ -485,6 +506,7 @@ const workingNote = computed(() => {
                 :surface="state.active.value"
                 :categories="categories"
                 :preset-categories="presetCategories"
+                :audience="audience"
                 @auto-plane="autoPlane()"
                 @warp="makeWarp"
                 @remove-warp="state.update(state.active.value!.uid, { warp: null }); tool = 'plane'"
@@ -508,17 +530,17 @@ const workingNote = computed(() => {
               <Check class="h-4 w-4" /> Every surface is ready.
             </p>
             <div class="grid gap-2">
-              <Button :disabled="!room.surfaces.length" variant="secondary" @click="emit('preview', room)"><Eye /> Try it with real products</Button>
+              <Button v-if="audience === 'staff'" :disabled="!room.surfaces.length" variant="secondary" @click="emit('preview', room)"><Eye /> Try it with real products</Button>
               <Button :disabled="!canSave" @click="save"><Loader2 v-if="saving" class="animate-spin" /><Save v-else /> {{ saveLabel }}</Button>
             </div>
-            <details class="rounded-xl border border-border p-3 text-xs">
+            <details v-if="audience === 'staff'" class="rounded-xl border border-border p-3 text-xs">
               <summary class="cursor-pointer font-semibold">Room JSON</summary>
               <Button size="sm" variant="outline" class="mt-2" @click="downloadJson"><Download /> Download</Button>
               <textarea readonly class="mt-2 h-40 w-full rounded-lg border border-input bg-muted p-2 font-mono text-[11px]" :value="JSON.stringify(room, null, 2)" />
             </details>
           </template>
 
-          <p v-if="workingNote && step !== 'photo'" class="mt-auto flex items-start gap-1.5 text-[11px] text-muted-foreground"><Sparkles class="mt-px h-3 w-3 shrink-0" /> {{ workingNote }}</p>
+          <p v-if="workingNote && step !== 'photo' && audience === 'staff'" class="mt-auto flex items-start gap-1.5 text-[11px] text-muted-foreground"><Sparkles class="mt-px h-3 w-3 shrink-0" /> {{ workingNote }}</p>
         </aside>
       </div>
 

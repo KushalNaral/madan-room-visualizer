@@ -14,6 +14,7 @@ const props = defineProps<{
   surface: DraftSurface
   categories: Category[]
   presetCategories?: Partial<Record<PresetKind, string[]>>
+  audience?: 'staff' | 'shopper'
 }>()
 const emit = defineEmits<{ autoPlane: []; warp: []; removeWarp: []; detachIdMap: [] }>()
 
@@ -114,7 +115,8 @@ const label = 'text-xs font-medium text-muted-foreground'
       <p class="text-[11px] text-muted-foreground">The real size of the area inside the 4 corners. Patterns repeat at their true size from this.</p>
     </div>
 
-    <div class="space-y-2 rounded-xl border border-border p-3">
+    <!-- Shoppers enter their own measurements when adding to the cart. -->
+    <div v-if="audience !== 'shopper'" class="space-y-2 rounded-xl border border-border p-3">
       <p class="text-xs font-semibold">Size for prices</p>
       <label class="flex items-center gap-2 text-xs">
         <input type="checkbox" :checked="!s.sizeCm" @change="set({ sizeCm: ($event.target as HTMLInputElement).checked ? null : { w: s.widthCm, h: s.heightCm } })" />
@@ -136,7 +138,7 @@ const label = 'text-xs font-medium text-muted-foreground'
       </p>
     </div>
 
-    <details class="group rounded-xl border border-border p-3">
+    <details v-if="audience !== 'shopper'" class="group rounded-xl border border-border p-3">
       <summary class="flex cursor-pointer list-none items-center justify-between text-xs font-semibold">
         Advanced
         <ChevronDown class="h-4 w-4 transition-transform group-open:rotate-180" />
