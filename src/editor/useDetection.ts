@@ -64,12 +64,16 @@ export function useDetection(state: EditorState, tools: MaskTools, client: () =>
         for (const mask of parts) {
           const area = maskArea(mask)
           if (area < minArea) continue
-          const label = nextLabel(preset.label, labels)
-          labels.push(label)
-          out.push({ key: `${preset.kind}-${out.length}`, label, kind: preset.kind, mask, coverage: area / (work.w * work.h), thumbnail: thumbnail(photo, mask), keep: true })
+          out.push({ key: `${preset.kind}-${out.length}`, label: preset.label, kind: preset.kind, mask, coverage: area / (work.w * work.h), thumbnail: thumbnail(photo, mask), keep: true })
         }
       }
-      candidates.value = out.sort((a, b) => order(a.kind) - order(b.kind) || b.coverage - a.coverage)
+      // Number them in the order shown: walls left to right, the rest largest first.
+      out.sort((a, b) => order(a.kind) - order(b.kind) || (a.kind === 'wall' ? 0 : b.coverage - a.coverage))
+      for (const c of out) {
+        c.label = nextLabel(c.label, labels)
+        labels.push(c.label)
+      }
+      candidates.value = out
       ran.value = true
     } catch (e) {
       error.value = e instanceof Error ? e.message : String(e)

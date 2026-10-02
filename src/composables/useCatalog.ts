@@ -32,7 +32,7 @@ export function useCatalog(source: ProductSource, allowedCategoryIds: Readonly<R
       return
     }
     try {
-      const page = await source.listProducts({ categoryIds, search: search.value, sort: sort.value, pageSize: 100 })
+      const page = await source.listProducts({ categoryIds, search: search.value, sort: sort.value, pageSize: 60 })
       if (id !== requestId) return
       products.value = page.items
       total.value = page.total

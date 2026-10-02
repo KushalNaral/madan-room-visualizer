@@ -49,9 +49,11 @@ function progress(id: number, model: ModelName) {
   }
 }
 
-async function withFallback<T>(load: (device: Device) => Promise<T>): Promise<T> {
+async function withFallback<T>(load: (device: Device) => Promise<T>, prefer?: Device[]): Promise<T> {
   let last: unknown
-  for (const device of await devices()) {
+  const available = await devices()
+  const order = prefer && !config.device ? prefer.filter((d) => available.includes(d)) : available
+  for (const device of order) {
     try {
       return await load(device)
     } catch (e) {
@@ -88,7 +90,9 @@ async function samModel(id: number) {
     const model = await t.SamModel.from_pretrained(MODELS.sam, { device, dtype: device === 'webgpu' ? 'fp16' : 'q8', progress_callback: onProgress })
     const processor = await t.AutoProcessor.from_pretrained(MODELS.sam, { progress_callback: onProgress })
     return { model, processor, device }
-  })
+    // SAM's fp16 WebGPU encoder crashed the tab on test machines; the quantized WASM one is
+    // slower to prepare (once per photo) but each click is quick either way.
+  }, ['wasm'])
   return sam
 }
 

@@ -63,7 +63,8 @@ export class SegmentClient {
 
   /** The mask for the clicked points on the embedded photo. */
   segment(prompts: Prompt[]): Promise<SegmentResult> {
-    return this.call({ type: 'segment', prompts })
+    // Plain copies: reactive (Proxy) arrays can't be posted to a worker.
+    return this.call({ type: 'segment', prompts: prompts.map((p) => ({ x: p.x, y: p.y, positive: p.positive })) })
   }
 
   dispose() {

@@ -22,7 +22,7 @@ export function verticalEdgeProfile(mask: Mask, gray: Float32Array): Float32Arra
       rows[x]++
       const gx = gray[i - w + 1] + 2 * gray[i + 1] + gray[i + w + 1] - gray[i - w - 1] - 2 * gray[i - 1] - gray[i + w - 1]
       const gy = gray[i + w - 1] + 2 * gray[i + w] + gray[i + w + 1] - gray[i - w - 1] - 2 * gray[i - w] - gray[i - w + 1]
-      if (Math.abs(gx) > 40 && Math.abs(gx) > 2 * Math.abs(gy)) profile[x]++
+      if (Math.abs(gx) > 24 && Math.abs(gx) > 1.5 * Math.abs(gy)) profile[x]++
     }
   }
   // Corners are rarely perfectly vertical in a photo: spread each column over its neighbours.
@@ -69,7 +69,7 @@ export function splitWalls(wall: Mask, gray: Float32Array, opts: { minShare?: nu
     }
     const profile = verticalEdgeProfile(part, gray)
     const margin = Math.round(width * 0.12)
-    let best = -1, bestScore = 0.45
+    let best = -1, bestScore = 0.35
     for (let x = b.minX + margin; x <= b.maxX - margin; x++) {
       if (profile[x] > bestScore) [best, bestScore] = [x, profile[x]]
     }
