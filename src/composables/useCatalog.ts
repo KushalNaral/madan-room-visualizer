@@ -24,6 +24,13 @@ export function useCatalog(source: ProductSource, allowedCategoryIds: Readonly<R
     error.value = null
     const allowed = allowedCategoryIds.value
     const categoryIds = activeCategoryId.value ? [activeCategoryId.value] : (allowed ?? undefined)
+    // A surface that offers nothing has nothing to list (an empty filter would mean "everything").
+    if (categoryIds && !categoryIds.length) {
+      products.value = []
+      total.value = 0
+      loading.value = false
+      return
+    }
     try {
       const page = await source.listProducts({ categoryIds, search: search.value, sort: sort.value, pageSize: 100 })
       if (id !== requestId) return
