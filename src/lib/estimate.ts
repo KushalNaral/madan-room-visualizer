@@ -22,7 +22,7 @@ const SQFT_PER_M2 = 10.7639
 export function surfaceSize(surface: Surface): { w: number; h: number } {
   if (surface.sizeCm) return surface.sizeCm
   let best = { w: 0, h: 0 }
-  for (const p of surface.patches) if (p.widthCm * p.heightCm > best.w * best.h) best = { w: p.widthCm, h: p.heightCm }
+  for (const p of surface.patches ?? []) if (p.widthCm * p.heightCm > best.w * best.h) best = { w: p.widthCm, h: p.heightCm }
   return best
 }
 

@@ -71,7 +71,7 @@ export function emptyDoc(): EditorDoc {
   return { id: '', name: '', image: { url: '', width: 0, height: 0 }, surfaces: [], presets: [] }
 }
 
-const clone = <T>(v: T): T => JSON.parse(JSON.stringify(v))
+const clone = <T>(v: T): T => (v === undefined ? v : JSON.parse(JSON.stringify(v)))
 
 /** Room JSON (from the API or a file) → an editable document. */
 export function docFromRoom(room: Room): EditorDoc {
@@ -88,13 +88,14 @@ export function docFromRoom(room: Room): EditorDoc {
 }
 
 function draftFromSurface(s: Surface): DraftSurface {
-  const only = s.patches.length === 1 ? s.patches[0] : null
-  const quad = only?.kind === 'quad' ? clone(only.quad) : []
+  const patches = s.patches ?? []
+  const only = patches.length === 1 ? patches[0] : null
+  const quad = only?.kind === 'quad' && Array.isArray(only.quad) ? clone(only.quad) : []
   const warp =
-    only?.kind === 'mesh'
+    only?.kind === 'mesh' && Array.isArray(only.points)
       ? { cols: only.cols, rows: only.rows, points: Array.from({ length: only.points.length / 3 }, (_, i) => ({ x: only.points[i * 3], y: only.points[i * 3 + 1] })) }
       : null
-  const size = only ?? s.patches[0]
+  const size = only ?? patches[0]
   return {
     uid: newUid(),
     id: s.id,
@@ -111,7 +112,7 @@ function draftFromSurface(s: Surface): DraftSurface {
     areaM2: s.areaM2 ?? null,
     idColor: s.idColor,
     // Multi-patch surfaces (rendered scenes) can't be shown as one plane: keep them as they are.
-    patches: only ? undefined : clone(s.patches),
+    patches: only ? undefined : clone(patches),
     anchor: s.anchor,
   }
 }

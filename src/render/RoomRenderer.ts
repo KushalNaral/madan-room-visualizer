@@ -70,6 +70,12 @@ function compile(gl: WebGL2RenderingContext, vs: string, fs: string): WebGLProgr
   return program
 }
 
+function validPatch(p: TexturePatch): boolean {
+  if (p?.kind === 'quad') return Array.isArray(p.quad) && p.quad.length === 4
+  if (p?.kind === 'mesh') return Array.isArray(p.points) && p.points.length >= (p.cols + 1) * (p.rows + 1) * 3
+  return false
+}
+
 /** Builds the id map canvas for rooms whose surfaces are described by polygons. */
 function rasterizePolygonMasks(room: Room, scale: number): HTMLCanvasElement {
   const c = document.createElement('canvas')
@@ -455,7 +461,8 @@ export class RoomRenderer {
         bbox: { x: st.minX * sx, y: st.minY * sy, w: (st.maxX - st.minX + 1) * sx, h: (st.maxY - st.minY + 1) * sy },
         anchor,
         coverage: st.n / (w * h),
-        patches: st.surface.patches.map((patch) => this.uploadPatch(patch)),
+        // A patch without its corners or points can't be drawn; skip it rather than fail the room.
+        patches: (st.surface.patches ?? []).filter(validPatch).map((patch) => this.uploadPatch(patch)),
       })
     }
   }

@@ -189,3 +189,20 @@ describe('warp fit', () => {
     expect(top[4].x - top[0].x).toBeLessThan(bottom[4].x - bottom[0].x)
   })
 })
+
+describe('loading damaged rooms', () => {
+  it('opens surfaces whose patches lost their corners instead of crashing', async () => {
+    const { docFromRoom } = await import('../src/editor/useEditorState')
+    const room = {
+      id: 'r', name: 'R', imageUrl: 'x.jpg', width: 100, height: 100,
+      surfaces: [
+        { id: 'wall', label: 'Wall', accepts: [], patches: [{ kind: 'quad', widthCm: 300, heightCm: 260 }] },
+        { id: 'chair', label: 'Chair', accepts: [], patches: [{ kind: 'mesh', cols: 1, rows: 1, widthCm: 50, heightCm: 50 }] },
+      ],
+    } as unknown as import('../src/types').Room
+    const doc = docFromRoom(room)
+    expect(doc.surfaces[0].quad).toEqual([])
+    expect(doc.surfaces[0].kind).toBe('wall')
+    expect(doc.surfaces[1].warp).toBeNull()
+  })
+})
