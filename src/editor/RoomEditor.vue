@@ -145,7 +145,7 @@ function openFile(file: File | undefined | null) {
     step.value = 'detect'
   }
   img.onerror = () => (photoError.value = 'That file is not an image the browser can read.')
-  img.src = url
+  img.src = original
 }
 const fileInput = ref<HTMLInputElement>()
 const dragging = ref(false)
