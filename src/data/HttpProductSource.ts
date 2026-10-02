@@ -12,7 +12,15 @@ export interface HttpProductSourceOptions {
   mapProduct?: (raw: unknown) => Product
   mapRoom?: (raw: unknown) => Room
   mapCategory?: (raw: unknown) => Category
+  /**
+   * Turns the image paths in rooms and variants into URLs (e.g. storage-relative paths through
+   * an image CDN). `use` says what the image is for, so resized copies are only used where that
+   * is safe: never for `room` maps (id maps need exact colours). Runs after the map* functions.
+   */
+  assetUrl?: (path: string, use: AssetUse) => string
 }
+
+export type AssetUse = 'room' | 'thumb' | 'texture'
 
 /**
  * Talks to Madan's dedicated visualizer API. Expected endpoints (adjust once the
@@ -33,8 +41,11 @@ export class HttpProductSource implements ProductSource {
 
   constructor(opts: HttpProductSourceOptions) {
     this.opts = opts
-    this.mapProduct = opts.mapProduct ?? ((r) => r as Product)
-    this.mapRoom = opts.mapRoom ?? ((r) => r as Room)
+    const url = opts.assetUrl
+    const mapProduct = opts.mapProduct ?? ((r) => r as Product)
+    const mapRoom = opts.mapRoom ?? ((r) => r as Room)
+    this.mapProduct = url ? (r) => resolveProduct(mapProduct(r), url) : mapProduct
+    this.mapRoom = url ? (r) => resolveRoom(mapRoom(r), url) : mapRoom
     this.mapCategory = opts.mapCategory ?? ((r) => r as Category)
   }
 
@@ -97,5 +108,28 @@ export class HttpProductSource implements ProductSource {
     const res = await fetch(url, { ...this.opts.init, method: 'POST', headers, body: JSON.stringify({ lines }) })
     if (!res.ok) throw new Error(`POST ${url.pathname} failed: ${res.status}`)
     return res.json() as Promise<Quote[]>
+  }
+}
+
+const isProcedural = (u: string) => u.startsWith('procedural:')
+
+function resolveProduct(p: Product, url: (path: string, use: AssetUse) => string): Product {
+  return {
+    ...p,
+    variants: p.variants.map((v) => ({
+      ...v,
+      textureUrl: v.textureUrl && !isProcedural(v.textureUrl) ? url(v.textureUrl, 'texture') : v.textureUrl,
+      thumbnailUrl: v.thumbnailUrl ? url(v.thumbnailUrl, 'thumb') : v.thumbnailUrl,
+    })),
+  }
+}
+
+function resolveRoom(r: Room, url: (path: string, use: AssetUse) => string): Room {
+  return {
+    ...r,
+    imageUrl: url(r.imageUrl, 'room'),
+    shadingUrl: r.shadingUrl && url(r.shadingUrl, 'room'),
+    idMapUrl: r.idMapUrl && url(r.idMapUrl, 'room'),
+    thumbnailUrl: r.thumbnailUrl && url(r.thumbnailUrl, 'thumb'),
   }
 }
