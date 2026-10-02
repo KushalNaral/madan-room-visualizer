@@ -30,6 +30,28 @@ export const PRESETS: SurfacePreset[] = [
 
 export const presetFor = (kind: PresetKind) => PRESETS.find((p) => p.kind === kind)!
 
+/** Most specific first: "floor rug" is a rug, "window wall" a wall. */
+const NAME_KINDS: [PresetKind, RegExp][] = [
+  ['curtain', /curtain|drape|sheer/],
+  ['blind', /blind/],
+  ['rug', /\brug|carpet/],
+  ['bed', /\bbed|duvet|quilt|pillow/],
+  ['sofa', /sofa|couch|armchair|chair|upholster|cushion/],
+  ['cabinet', /cabinet|wardrobe|door|drawer|sideboard|cupboard/],
+  ['ceiling', /ceiling/],
+  ['wall', /wall/],
+  ['floor', /floor/],
+]
+
+/** A surface's kind from its id or label, for rooms saved before surfaces had one. */
+export function kindFromName(text: string): PresetKind | undefined {
+  const t = text.toLowerCase().replace(/[-_]+/g, ' ')
+  return NAME_KINDS.find(([, re]) => re.test(t))?.[0]
+}
+
+/** Categories a kind inherits from the host's settings, applied on top of a surface's own. */
+export type InheritedCategories = Partial<Record<PresetKind, string[]>>
+
 /** The preset for a SegFormer label, if the visualizer can style that kind of surface. */
 export function presetForLabel(label: string): SurfacePreset | undefined {
   const l = label.trim().toLowerCase()

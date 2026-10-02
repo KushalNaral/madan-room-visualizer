@@ -1,11 +1,10 @@
 import { ref, shallowRef } from 'vue'
-import type { Category } from '../types'
 import type { SegmentClient } from './ai/client'
 import { vectorize } from './lib/contours'
 import { rasterOf } from './lib/image'
 import { components, maskArea, resizeMask, type Mask } from './lib/mask'
 import { fitPlane } from './lib/planeFit'
-import { presetFor, presetForLabel, suggestAccepts, type PresetKind } from './lib/presets'
+import { presetFor, presetForLabel, type PresetKind } from './lib/presets'
 import { nextLabel } from './lib/ids'
 import { splitWalls, toGray } from './lib/wallSplit'
 import { fitWarp } from './lib/warpFit'
@@ -87,7 +86,7 @@ export function useDetection(state: EditorState, tools: MaskTools, client: () =>
   }
 
   /** Adds the ticked candidates with a fitted plane (and a warp grid for curved ones). */
-  function accept(categories: Category[], mapping?: Partial<Record<PresetKind, string[]>>) {
+  function accept(acceptsFor: (kind: PresetKind) => string[]) {
     const scale = 1 / tools.scale.value
     state.addSurfaces(
       candidates.value
@@ -98,7 +97,7 @@ export function useDetection(state: EditorState, tools: MaskTools, client: () =>
           const preset = presetFor(c.kind)
           return {
             kind: c.kind,
-            accepts: suggestAccepts(c.kind, categories, mapping),
+            accepts: acceptsFor(c.kind),
             init: { label: c.label, mask, quad, warp: preset.curved ? fitWarp(c.mask, 8, 6, scale) : null },
           }
         }),

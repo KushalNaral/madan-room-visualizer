@@ -35,7 +35,7 @@ import SurfaceList from './SurfaceList.vue'
 import { fitScale, loadImage, masksFromIdMap, rasterOf } from './lib/image'
 import { rasterize } from './lib/mask'
 import { fitPlane } from './lib/planeFit'
-import { suggestAccepts, type PresetKind } from './lib/presets'
+import { suggestAccepts, type InheritedCategories, type PresetKind } from './lib/presets'
 import { fitWarp } from './lib/warpFit'
 import { useDetection } from './useDetection'
 import { useEditorState, type SurfaceStep } from './useEditorState'
@@ -53,6 +53,11 @@ const props = withDefaults(
     categories?: Category[]
     /** Preset kind → category ids, instead of matching category names. */
     presetCategories?: Partial<Record<PresetKind, string[]>>
+    /**
+     * Categories every surface of a kind offers (the host's settings, applied on top of each
+     * surface's own). Shown locked on surfaces; new surfaces then start without extra picks.
+     */
+    inheritedCategories?: InheritedCategories
     /** Creates the segmentation worker (auto-detect and magic select). Without it those tools are off. */
     createWorker?: () => Worker
     workerConfig?: WorkerConfig
@@ -73,7 +78,13 @@ const emit = defineEmits<{
   dirty: [dirty: boolean]
 }>()
 
-const state = useEditorState({ autosaveKey: props.autosaveKey })
+const state = useEditorState({ autosaveKey: props.autosaveKey, inherited: () => props.inheritedCategories })
+
+/** What a new surface of a kind offers by itself: nothing when the kind inherits categories. */
+function defaultAccepts(kind: PresetKind): string[] {
+  if (props.inheritedCategories?.[kind]?.length) return []
+  return suggestAccepts(kind, props.categories, props.presetCategories)
+}
 
 type Step = 'photo' | 'detect' | 'refine' | 'preview'
 const step = ref<Step>('photo')
@@ -227,7 +238,7 @@ async function embed(c: SegmentClient, img: HTMLImageElement): Promise<boolean> 
 
 // ---- Surface actions
 function addSurface(kind: PresetKind | 'custom') {
-  const accepts = kind === 'custom' ? [] : suggestAccepts(kind, props.categories, props.presetCategories)
+  const accepts = kind === 'custom' ? [] : defaultAccepts(kind)
   state.addSurface(kind, {}, accepts)
   tool.value = props.createWorker ? 'magic' : 'pen'
   step.value = 'refine'
@@ -276,7 +287,7 @@ function runDetect() {
   if (photo.value) void detection.detect(photo.value)
 }
 function acceptDetected() {
-  detection.accept(props.categories, props.presetCategories)
+  detection.accept(defaultAccepts)
   step.value = 'refine'
 }
 
@@ -506,6 +517,7 @@ const workingNote = computed(() => {
                 :surface="state.active.value"
                 :categories="categories"
                 :preset-categories="presetCategories"
+                :inherited="state.active.value.kind === 'custom' ? [] : (inheritedCategories?.[state.active.value.kind] ?? [])"
                 :audience="audience"
                 @auto-plane="autoPlane()"
                 @warp="makeWarp"

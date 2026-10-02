@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { ArrowUpDown, MousePointerClick, PackageSearch, Search, X } from 'lucide-vue-next'
+import { computed, ref } from 'vue'
+import { useIntersectionObserver } from '@vueuse/core'
+import { ArrowUpDown, Loader2, MousePointerClick, PackageSearch, Search, X } from 'lucide-vue-next'
 import { useCatalog } from '../../composables/useCatalog'
 import { cn } from '../../lib/utils'
 import type { Product } from '../../types'
 import { useVisualizer } from '../context'
+import { Button } from '../ui/button'
 import Swatch from '../Swatch.vue'
 import ProductCard from './ProductCard.vue'
 import ProductDetail from './ProductDetail.vue'
@@ -15,7 +17,11 @@ const { state, ui, renderer } = ctx
 const { selectedSurface } = state
 
 const allowed = computed(() => selectedSurface.value?.accepts ?? null)
-const { categories, products, loading, error, search, sort, activeCategoryId } = useCatalog(ctx.source, allowed)
+const { categories, products, total, loading, loadingMore, hasMore, error, search, sort, activeCategoryId, loadMore } = useCatalog(ctx.source, allowed)
+
+// Infinite scroll: the next page loads when the end of the list comes into view.
+const sentinel = ref<HTMLElement>()
+useIntersectionObserver(sentinel, ([entry]) => entry?.isIntersecting && void loadMore(), { rootMargin: '240px' })
 
 const visibleCategories = computed(() =>
   allowed.value ? categories.value.filter((c) => allowed.value!.includes(c.id)) : categories.value,
@@ -171,6 +177,12 @@ const SORTS = [
           @open="open(p)"
         />
       </TransitionGroup>
+      <div v-if="products.length" ref="sentinel" class="flex flex-col items-center gap-2 pb-2 pt-1 text-xs text-muted-foreground">
+        <span>{{ products.length }} of {{ total }} products</span>
+        <Button v-if="hasMore" size="sm" variant="outline" :disabled="loadingMore" @click="loadMore">
+          <Loader2 v-if="loadingMore" class="animate-spin" /> {{ loadingMore ? 'Loading…' : `Show more (${total - products.length})` }}
+        </Button>
+      </div>
     </template>
   </div>
 </template>

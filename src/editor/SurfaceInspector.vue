@@ -15,6 +15,8 @@ const props = defineProps<{
   categories: Category[]
   presetCategories?: Partial<Record<PresetKind, string[]>>
   audience?: 'staff' | 'shopper'
+  /** Categories this surface's kind offers everywhere (host settings); shown locked. */
+  inherited?: string[]
 }>()
 const emit = defineEmits<{ autoPlane: []; warp: []; removeWarp: []; detachIdMap: [] }>()
 
@@ -29,7 +31,7 @@ function setKind(kind: PresetKind | 'custom') {
   set({
     kind,
     group: p.group ?? '',
-    accepts: s.value.accepts.length ? s.value.accepts : suggestAccepts(kind, props.categories, props.presetCategories),
+    accepts: s.value.accepts.length || props.inherited?.length ? s.value.accepts : suggestAccepts(kind, props.categories, props.presetCategories),
     widthCm: p.sizeCm.w,
     heightCm: p.sizeCm.h,
   })
@@ -39,6 +41,9 @@ function toggleAccept(id: string) {
   const a = s.value.accepts
   set({ accepts: a.includes(id) ? a.filter((x) => x !== id) : [...a, id] })
 }
+
+const inheritedSet = computed(() => new Set(props.inherited ?? []))
+const offersNothing = computed(() => !s.value.accepts.length && !inheritedSet.value.size)
 
 const num = (v: string | number | undefined) => Math.max(1, Math.round(Number(v) || 0))
 const pricingSize = computed(() => s.value.sizeCm ?? { w: s.value.widthCm, h: s.value.heightCm })
@@ -74,17 +79,24 @@ const label = 'text-xs font-medium text-muted-foreground'
           v-for="c in categories"
           :key="c.id"
           type="button"
-          :aria-pressed="s.accepts.includes(c.id)"
+          :aria-pressed="s.accepts.includes(c.id) || inheritedSet.has(c.id)"
+          :disabled="inheritedSet.has(c.id)"
+          :title="inheritedSet.has(c.id) ? 'Offered by every surface of this type (Materials settings)' : undefined"
           :class="
             cn(
               'rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors',
-              s.accepts.includes(c.id) ? 'border-foreground bg-foreground text-background' : 'border-border hover:bg-accent',
+              inheritedSet.has(c.id)
+                ? 'cursor-default border-primary/40 bg-primary/10 text-primary'
+                : s.accepts.includes(c.id)
+                  ? 'border-foreground bg-foreground text-background'
+                  : 'border-border hover:bg-accent',
             )
           "
           @click="toggleAccept(c.id)"
         >{{ c.name }}</button>
       </div>
-      <p v-if="!s.accepts.length" class="mt-1.5 text-xs text-amber-700 dark:text-amber-400">Pick at least one category, or shoppers can't style this surface.</p>
+      <p v-if="inheritedSet.size" class="mt-1.5 text-[11px] text-muted-foreground">Tinted ones come with the surface type (Materials settings); pick extras for this surface only.</p>
+      <p v-if="offersNothing" class="mt-1.5 text-xs text-amber-700 dark:text-amber-400">Pick at least one category, or shoppers can't style this surface.</p>
     </fieldset>
 
     <div class="space-y-2 rounded-xl border border-border p-3">

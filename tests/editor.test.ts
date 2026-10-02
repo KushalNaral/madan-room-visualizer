@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { signedArea, traceRings, vectorize } from '../src/editor/lib/contours'
 import { components, emptyMask, iou, paintDisc, paintStroke, rasterize, type Mask } from '../src/editor/lib/mask'
 import { fitPlane, orderCorners, planeIssue } from '../src/editor/lib/planeFit'
-import { presetForLabel, suggestAccepts } from '../src/editor/lib/presets'
+import { kindFromName, presetForLabel, suggestAccepts } from '../src/editor/lib/presets'
 import { slugify, uniqueId, nextLabel } from '../src/editor/lib/ids'
 import { splitWalls } from '../src/editor/lib/wallSplit'
 import { fitWarp } from '../src/editor/lib/warpFit'
@@ -142,6 +142,16 @@ describe('presets and ids', () => {
     expect(suggestAccepts('floor', categories)).toEqual(['9'])
     expect(suggestAccepts('sofa', categories)).toEqual(['11'])
     expect(suggestAccepts('wall', categories, { wall: ['8', '404'] })).toEqual(['8'])
+  })
+  it('infers a surface kind from its id or label', () => {
+    expect(kindFromName('feature-wall Feature wall')).toBe('wall')
+    expect(kindFromName('window-wall')).toBe('wall')
+    expect(kindFromName('floor-rug Floor rug')).toBe('rug')
+    expect(kindFromName('Armchair')).toBe('sofa')
+    expect(kindFromName('Sheer curtains')).toBe('curtain')
+    expect(kindFromName('duvet')).toBe('bed')
+    expect(kindFromName('bedside lamp')).toBe('bed')
+    expect(kindFromName('Lamp shade')).toBeUndefined()
   })
   it('makes unique ids and labels', () => {
     expect(slugify('Feature wall (left)')).toBe('feature-wall-left')

@@ -3,7 +3,7 @@ import type { LookPreset, Point, PolygonMask, Quad, Room, Surface, TexturePatch 
 import { autoIdColor } from '../render/RoomRenderer'
 import { nextLabel, uniqueId } from './lib/ids'
 import { planeIssue, type PlaneIssue } from './lib/planeFit'
-import { presetFor, type PresetKind } from './lib/presets'
+import { kindFromName, presetFor, type InheritedCategories, type PresetKind } from './lib/presets'
 
 export interface Warp {
   cols: number
@@ -60,6 +60,7 @@ export interface SurfaceStatus {
 }
 
 const HISTORY_LIMIT = 80
+const PRESET_KINDS = new Set(['wall', 'floor', 'ceiling', 'sofa', 'bed', 'curtain', 'blind', 'rug', 'cabinet'])
 /** Autosaves keep the photo inline only when it is small enough for localStorage. */
 const MAX_INLINE_IMAGE = 2_500_000
 
@@ -98,7 +99,7 @@ function draftFromSurface(s: Surface): DraftSurface {
     uid: newUid(),
     id: s.id,
     label: s.label,
-    kind: 'custom',
+    kind: (PRESET_KINDS.has(s.kind ?? '') ? s.kind : kindFromName(`${s.id} ${s.label}`)) as PresetKind | undefined ?? 'custom',
     accepts: [...s.accepts],
     group: s.group ?? '',
     mask: clone(s.mask ?? { polygons: [], cutouts: [] }),
@@ -119,10 +120,15 @@ export function hasMask(s: DraftSurface, doc: EditorDoc): boolean {
   return (!!doc.idMapUrl && !!s.idColor) || s.mask.polygons.some((r) => r.length >= 3)
 }
 
-export function surfaceStatus(s: DraftSurface, doc: EditorDoc): SurfaceStatus {
+/** Categories the surface's kind inherits from the host (shown locked in the inspector). */
+export function inheritedFor(s: DraftSurface, inherited?: InheritedCategories): string[] {
+  return s.kind === 'custom' ? [] : (inherited?.[s.kind] ?? [])
+}
+
+export function surfaceStatus(s: DraftSurface, doc: EditorDoc, inherited?: InheritedCategories): SurfaceStatus {
   const mask = hasMask(s, doc)
   const plane = s.quad.length === 4 || !!s.patches?.length
-  const accepts = s.accepts.length > 0
+  const accepts = s.accepts.length > 0 || inheritedFor(s, inherited).length > 0
   return {
     mask,
     plane,
@@ -151,6 +157,7 @@ export function roomFromDoc(doc: EditorDoc): Room {
       const out: Surface = {
         id: s.id,
         label: s.label,
+        ...(s.kind !== 'custom' ? { kind: s.kind } : {}),
         accepts: [...s.accepts],
         patches: surfacePatch(s),
         areaM2: s.areaM2 ?? Math.round((size.w * size.h) / 1000) / 10,
@@ -182,6 +189,8 @@ export function roomFromDoc(doc: EditorDoc): Room {
 export interface EditorStateOptions {
   /** localStorage key for autosave; false turns it off. */
   autosaveKey?: string | false
+  /** Categories each kind inherits from the host's settings (read on every status check). */
+  inherited?: () => InheritedCategories | undefined
 }
 
 export interface Autosave {
@@ -200,7 +209,7 @@ export function useEditorState(opts: EditorStateOptions = {}) {
 
   const active = computed(() => doc.surfaces.find((s) => s.uid === activeUid.value) ?? null)
   const room = computed(() => roomFromDoc(doc))
-  const statuses = computed(() => new Map(doc.surfaces.map((s) => [s.uid, surfaceStatus(s, doc)])))
+  const statuses = computed(() => new Map(doc.surfaces.map((s) => [s.uid, surfaceStatus(s, doc, opts.inherited?.())])))
 
   // ---- History: snapshots of the document without the photo.
   const snapshot = () => JSON.stringify({ surfaces: doc.surfaces, presets: doc.presets, idMapUrl: doc.idMapUrl ?? null, name: doc.name, id: doc.id })

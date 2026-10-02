@@ -88,6 +88,11 @@ export interface PolygonMask {
 export interface Surface {
   id: string
   label: string
+  /**
+   * What the surface is: wall, floor, ceiling, curtain, blind, sofa, bed, rug, cabinet.
+   * Hosts can attach default categories per kind (Madan's "Materials" settings).
+   */
+  kind?: string
   /** Category ids that may be applied to this surface. */
   accepts: string[]
   /** Surfaces sharing a group can be styled together ("apply to all walls"). */
