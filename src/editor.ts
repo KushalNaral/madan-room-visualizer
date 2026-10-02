@@ -1,0 +1,12 @@
+// Room editor (dashboard/playground only; not part of the storefront bundle).
+export { default as RoomEditor } from './editor/RoomEditor.vue'
+export { SegmentClient } from './editor/ai/client'
+export { MODELS, DEFAULT_TRANSFORMERS_URL, type WorkerConfig, type ModelName } from './editor/ai/protocol'
+export { useEditorState, docFromRoom, roomFromDoc, surfaceStatus, type DraftSurface, type EditorDoc, type EditorState } from './editor/useEditorState'
+export { PRESETS, presetFor, presetForLabel, suggestAccepts, type PresetKind, type SurfacePreset } from './editor/lib/presets'
+export { vectorize, traceRings, simplifyRing } from './editor/lib/contours'
+export { rasterize, components, iou, type Mask } from './editor/lib/mask'
+export { fitPlane, convexHull, reduceToQuad, orderCorners, planeIssue } from './editor/lib/planeFit'
+export { splitWalls } from './editor/lib/wallSplit'
+export { fitWarp } from './editor/lib/warpFit'
+export { slugify, uniqueId } from './editor/lib/ids'

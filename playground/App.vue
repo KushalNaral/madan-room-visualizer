@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { defineAsyncComponent, ref } from 'vue'
+import { defineAsyncComponent, onMounted, ref, shallowRef } from 'vue'
 import { Moon, Sun } from 'lucide-vue-next'
-import { RoomVisualizer, type AppliedItem, type Product, type Room } from '../src'
+import { RoomVisualizer, type AppliedItem, type Category, type Product, type Room } from '../src'
 import { MockProductSource } from '../src/mock'
 
-const RoomEditor = defineAsyncComponent(() => import('./editor/RoomEditor.vue'))
+const RoomEditor = defineAsyncComponent(() => import('../src/editor/RoomEditor.vue'))
+const createWorker = () => new Worker(new URL('../src/editor/ai/worker.ts', import.meta.url), { type: 'module' })
 
 const source = new MockProductSource({ latency: 120 })
 const tab = ref<'visualizer' | 'editor'>('visualizer')
@@ -12,6 +13,13 @@ const visualizerKey = ref(0)
 const previewRoomId = ref<string>()
 const dark = ref(false)
 const log = ref<string[]>([])
+const categories = shallowRef<Category[]>([])
+const editing = ref<Room | null>(null)
+onMounted(async () => (categories.value = await source.listCategories()))
+
+async function editMockRoom(id: string) {
+  editing.value = (await source.getRoom(id)) ?? null
+}
 
 function record(line: string) {
   log.value = [`${new Date().toLocaleTimeString()}  ${line}`, ...log.value].slice(0, 5)
@@ -79,7 +87,22 @@ function toggleDark() {
           @view-product="onViewProduct"
         />
       </div>
-      <RoomEditor v-if="tab === 'editor'" :source="source" @preview="preview" />
+      <div v-if="tab === 'editor'" class="flex h-[calc(100vh-7.5rem)] min-h-[720px] flex-col gap-2">
+        <div class="flex items-center gap-2 text-xs text-muted-foreground">
+          Open a sample room:
+          <button v-for="id in ['living', 'bedroom', 'dining']" :key="id" type="button" class="rounded-md border border-border px-2 py-0.5 capitalize hover:bg-accent" @click="editMockRoom(id)">{{ id }}</button>
+          <button type="button" class="rounded-md border border-border px-2 py-0.5 hover:bg-accent" @click="editing = null">New</button>
+        </div>
+        <RoomEditor
+          class="min-h-0 flex-1"
+          :room="editing"
+          :categories="categories"
+          :create-worker="createWorker"
+          save-label="Use in visualizer"
+          @save="preview"
+          @preview="preview"
+        />
+      </div>
 
       <section v-if="tab === 'visualizer' && log.length" class="mt-3 rounded-xl border border-border bg-background p-3">
         <h2 class="mb-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Host events</h2>

@@ -20,7 +20,7 @@ export default defineConfig(({ command, mode }) => {
     build: isLib
       ? {
           lib: {
-            entry: { 'room-visualizer': resolve(__dirname, 'src/index.ts'), mock: resolve(__dirname, 'src/mock.ts'), url: resolve(__dirname, 'src/url.ts') },
+            entry: { 'room-visualizer': resolve(__dirname, 'src/index.ts'), mock: resolve(__dirname, 'src/mock.ts'), url: resolve(__dirname, 'src/url.ts'), editor: resolve(__dirname, 'src/editor.ts'), 'editor-worker': resolve(__dirname, 'src/editor-worker.ts') },
             formats: ['es'],
           },
           rollupOptions: {
