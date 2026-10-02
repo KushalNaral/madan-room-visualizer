@@ -17,7 +17,7 @@ export const WORK_SIDE = 1280
  * magic-select, a raster copy at working resolution is edited and vectorized back on each commit,
  * so the saved format never changes.
  */
-export function useMaskTools(state: EditorState, client: () => SegmentClient | null) {
+export function useMaskTools(state: EditorState, client: () => SegmentClient | null, ready: () => Promise<boolean> = async () => true) {
   const scale = computed(() => fitScale(state.doc.image.width || 1, state.doc.image.height || 1, WORK_SIDE))
   const size = computed(() => ({ w: Math.max(1, Math.round(state.doc.image.width * scale.value)), h: Math.max(1, Math.round(state.doc.image.height * scale.value)) }))
 
@@ -87,6 +87,12 @@ export function useMaskTools(state: EditorState, client: () => SegmentClient | n
       magic.value = { base: { ...raster.value, data: raster.value.data.slice() }, prompts: [], key: `magic:${Date.now()}` }
     }
     const session = magic.value
+    // The photo's embedding is computed on the first click, not before it's needed.
+    magicBusy.value = true
+    if (!(await ready())) {
+      magicBusy.value = false
+      return
+    }
     session.prompts.push({ x: p.x / state.doc.image.width, y: p.y / state.doc.image.height, positive })
     const mine = ++magicSeq
     magicBusy.value = true

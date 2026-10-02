@@ -91,7 +91,7 @@ function getClient(): SegmentClient | null {
 }
 onBeforeUnmount(() => client?.dispose())
 
-const tools = useMaskTools(state, getClient)
+const tools = useMaskTools(state, getClient, () => ensureEmbedding())
 const detection = useDetection(state, tools, getClient)
 
 // ---- Photo
@@ -172,7 +172,6 @@ const maskLocked = computed(() => !!state.doc.idMapUrl && ['magic', 'brush', 'er
 watch(tool, (t, before) => {
   if (before === 'pen' && tools.pen.value.length >= 3) tools.penClose()
   if (t !== 'magic') tools.endMagic()
-  if (t === 'magic') void ensureEmbedding()
 })
 watch(state.activeUid, () => {
   tools.endMagic()
@@ -180,23 +179,30 @@ watch(state.activeUid, () => {
 })
 
 // ---- Magic select embedding
-async function ensureEmbedding() {
+let embeddingJob: Promise<boolean> | null = null
+async function ensureEmbedding(): Promise<boolean> {
   const c = getClient()
   const img = photo.value
-  if (!c || !img || embeddedFor.value === state.doc.image.url || embedding.value) return
+  if (!c || !img) return false
+  if (embeddedFor.value === state.doc.image.url) return true
+  embeddingJob ??= embed(c, img).finally(() => (embeddingJob = null))
+  return embeddingJob
+}
+async function embed(c: SegmentClient, img: HTMLImageElement): Promise<boolean> {
   embedding.value = true
   embedError.value = null
   try {
     const url = state.doc.image.url
     await c.embed(rasterOf(img, state.doc.image.width, state.doc.image.height, 1024))
     embeddedFor.value = url
+    return true
   } catch (e) {
     embedError.value = e instanceof Error ? e.message : String(e)
+    return false
   } finally {
     embedding.value = false
   }
 }
-watch(photo, () => tool.value === 'magic' && void ensureEmbedding())
 
 // ---- Surface actions
 function addSurface(kind: PresetKind | 'custom') {
