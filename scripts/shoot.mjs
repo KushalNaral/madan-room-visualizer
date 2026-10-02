@@ -92,26 +92,25 @@ await page.waitForFunction(() => document.querySelector('canvas')?.classList.con
 await clickText('button', 'Sage kitchen')
 await shot('08-dining-sage')
 
-// Room editor: upload a photo, trace a wall, set its plane, preview.
+// Room editor: upload a photo, add a wall, trace it with the pen, fit its plane, preview.
 await clickText('button', 'Room editor')
-const input = await page.waitForSelector('input[type=file]')
+await page.evaluate(() => localStorage.removeItem('madan-room-editor'))
+const input = await page.waitForSelector('.room-editor input[type=file]')
 await input.uploadFile('public/mock-rooms/living.png')
-await page.waitForSelector('svg.cursor-crosshair')
+await page.waitForSelector('.room-editor svg[viewBox="0 0 1600 1000"]')
+await clickText('button', 'Add')
+await clickText('button', 'Wall')
+await page.click('button[aria-label="Pen"]')
 const clickSvg = async (x, y) => {
-  const b = await page.$eval('svg.cursor-crosshair', (s) => { const r = s.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height } })
+  const b = await page.$eval('.room-editor svg[viewBox="0 0 1600 1000"]', (s) => { const r = s.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height } })
   await page.mouse.click(b.x + (x / 1600) * b.w, b.y + (y / 1000) * b.h)
 }
-for (const [x, y] of [[615, 270], [1265, 270], [1265, 690], [615, 690]]) await clickSvg(x, y)
-await clickText('button', 'Plane')
-for (const [x, y] of [[615, 270], [1265, 270], [1265, 690], [615, 690]]) await clickSvg(x, y)
+for (const [x, y] of [[615, 270], [1265, 270], [1265, 690], [615, 690], [615, 270]]) await clickSvg(x, y)
+await clickText('button', 'Auto plane')
 await clickText('button', 'Paint')
 await shot('09-editor')
-await clickText('button', 'Preview')
-await page.waitForFunction(() => document.querySelector('canvas')?.classList.contains('opacity-100'), { timeout: 30000 })
-await shot('10a-after-preview')
-await clickRoom(940, 300)
-await shot('10b-after-click')
-await clickText('button', 'Silk Emulsion')
+await clickText('button', 'Preview & save')
+await new Promise((r) => setTimeout(r, 2500))
 await shot('10-editor-preview')
 
 await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1, isMobile: true, hasTouch: true })
