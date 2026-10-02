@@ -12,6 +12,8 @@ export interface Category {
   name: string
   /** Lucide icon name hint for UIs (e.g. "paint-roller"). */
   icon?: string
+  /** A preview photo (e.g. a product from the category), for pickers. */
+  imageUrl?: string
 }
 
 export type Finish = 'matte' | 'satin' | 'gloss'

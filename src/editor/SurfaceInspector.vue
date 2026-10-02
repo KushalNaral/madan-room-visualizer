@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { ChevronDown, Grid3x3, Square, Wand2 } from 'lucide-vue-next'
 import type { Category } from '../types'
 import { cn } from '../lib/utils'
@@ -43,6 +43,13 @@ function toggleAccept(id: string) {
 }
 
 const inheritedSet = computed(() => new Set(props.inherited ?? []))
+// With many categories, a filter; chosen ones always stay visible.
+const categoryQuery = ref('')
+const shownCategories = computed(() => {
+  const q = categoryQuery.value.trim().toLowerCase()
+  if (!q) return props.categories
+  return props.categories.filter((c) => c.name.toLowerCase().includes(q) || s.value.accepts.includes(c.id) || inheritedSet.value.has(c.id))
+})
 const offersNothing = computed(() => !s.value.accepts.length && !inheritedSet.value.size)
 
 const num = (v: string | number | undefined) => Math.max(1, Math.round(Number(v) || 0))
@@ -74,9 +81,16 @@ const label = 'text-xs font-medium text-muted-foreground'
     <fieldset id="surface-accepts">
       <legend :class="label">Products it offers</legend>
       <p v-if="!categories.length" class="mt-1 text-xs text-muted-foreground">No categories to choose from.</p>
-      <div class="mt-1.5 flex max-h-40 flex-wrap gap-1.5 overflow-y-auto">
+      <Input
+        v-if="categories.length > 12"
+        v-model="categoryQuery"
+        type="search"
+        placeholder="Filter categories"
+        class="mt-1.5 h-8"
+      />
+      <div class="mt-1.5 flex max-h-48 flex-wrap gap-1.5 overflow-y-auto">
         <button
-          v-for="c in categories"
+          v-for="c in shownCategories"
           :key="c.id"
           type="button"
           :aria-pressed="s.accepts.includes(c.id) || inheritedSet.has(c.id)"
@@ -93,7 +107,12 @@ const label = 'text-xs font-medium text-muted-foreground'
             )
           "
           @click="toggleAccept(c.id)"
-        >{{ c.name }}</button>
+        >
+          <span class="inline-flex items-center gap-1.5">
+            <img v-if="c.imageUrl" :src="c.imageUrl" alt="" class="-ml-1.5 size-5 rounded-full object-cover" loading="lazy" />
+            {{ c.name }}
+          </span>
+        </button>
       </div>
       <p v-if="inheritedSet.size" class="mt-1.5 text-[11px] text-muted-foreground">Tinted ones come with the surface type (Materials settings); pick extras for this surface only.</p>
       <p v-if="offersNothing" class="mt-1.5 text-xs text-amber-700 dark:text-amber-400">Pick at least one category, or shoppers can't style this surface.</p>
