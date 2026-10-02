@@ -186,6 +186,12 @@ export function roomFromDoc(doc: EditorDoc): Room {
   }
 }
 
+/** Same surfaces, presets and name (photo URLs differ between a blob and the saved file). */
+function sameContent(a: Room, b: Room): boolean {
+  const key = (r: Room) => JSON.stringify([r.name, r.width, r.height, r.surfaces, r.presets ?? []])
+  return key(a) === key(b)
+}
+
 export interface EditorStateOptions {
   /** localStorage key for autosave; false turns it off. */
   autosaveKey?: string | false
@@ -264,6 +270,9 @@ export function useEditorState(opts: EditorStateOptions = {}) {
   }
   function loadRoom(r: Room) {
     load(docFromRoom(r))
+    // An autosave identical to what was just loaded (ids aside) has nothing to restore.
+    const saved = restorable.value
+    if (saved && sameContent(roomFromDoc(saved.doc), roomFromDoc(doc))) clearAutosave()
   }
   /** A new photo: everything drawn so far belonged to the old one. */
   function setImage(url: string, width: number, height: number, name?: string) {
