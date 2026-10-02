@@ -1,0 +1,6 @@
+node_modules
+dist
+dist-playground
+*.local
+screenshots
+.claude/

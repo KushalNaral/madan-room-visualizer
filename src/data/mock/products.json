@@ -1,0 +1,2094 @@
+[
+  {
+    "id": "silk-emulsion",
+    "sku": "MF-PNT-SE",
+    "name": "Silk Emulsion",
+    "categoryId": "paint",
+    "description": "Washable low-sheen interior emulsion with a soft, velvety finish. Low VOC.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "Bestseller"
+    ],
+    "pricing": {
+      "unit": "litre",
+      "coverageM2": 5,
+      "wastage": 0.05
+    },
+    "variants": [
+      {
+        "id": "silk-emulsion-v1",
+        "sku": "MF-PNT-SE-01",
+        "name": "Ivory Dawn",
+        "colorHex": "#efe6d4",
+        "textureUrl": "procedural:paint?base=%23efe6d4",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "satin",
+        "price": 520
+      },
+      {
+        "id": "silk-emulsion-v2",
+        "sku": "MF-PNT-SE-02",
+        "name": "Sage Mist",
+        "colorHex": "#a9b8a0",
+        "textureUrl": "procedural:paint?base=%23a9b8a0",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "satin",
+        "price": 520
+      },
+      {
+        "id": "silk-emulsion-v3",
+        "sku": "MF-PNT-SE-03",
+        "name": "Terracotta",
+        "colorHex": "#c0694a",
+        "textureUrl": "procedural:paint?base=%23c0694a",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "satin",
+        "price": 520
+      },
+      {
+        "id": "silk-emulsion-v4",
+        "sku": "MF-PNT-SE-04",
+        "name": "Ink Blue",
+        "colorHex": "#2f4058",
+        "textureUrl": "procedural:paint?base=%232f4058",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "satin",
+        "price": 520
+      },
+      {
+        "id": "silk-emulsion-v5",
+        "sku": "MF-PNT-SE-05",
+        "name": "Blush",
+        "colorHex": "#e5bfb4",
+        "textureUrl": "procedural:paint?base=%23e5bfb4",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "satin",
+        "price": 520
+      },
+      {
+        "id": "silk-emulsion-v6",
+        "sku": "MF-PNT-SE-06",
+        "name": "Greige",
+        "colorHex": "#bdb3a4",
+        "textureUrl": "procedural:paint?base=%23bdb3a4",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "satin",
+        "price": 520
+      },
+      {
+        "id": "silk-emulsion-v7",
+        "sku": "MF-PNT-SE-07",
+        "name": "Butter",
+        "colorHex": "#efd9a0",
+        "textureUrl": "procedural:paint?base=%23efd9a0",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "satin",
+        "price": 520
+      },
+      {
+        "id": "silk-emulsion-v8",
+        "sku": "MF-PNT-SE-08",
+        "name": "Pebble",
+        "colorHex": "#a7a39b",
+        "textureUrl": "procedural:paint?base=%23a7a39b",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "satin",
+        "price": 520
+      }
+    ]
+  },
+  {
+    "id": "velvet-matt",
+    "sku": "MF-PNT-VM",
+    "name": "Velvet Matt",
+    "categoryId": "paint",
+    "description": "Ultra-flat, chalky matt for deep, colour-rich walls.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "litre",
+      "coverageM2": 5,
+      "wastage": 0.05
+    },
+    "variants": [
+      {
+        "id": "velvet-matt-v1",
+        "sku": "MF-PNT-VM-01",
+        "name": "Forest",
+        "colorHex": "#33493b",
+        "textureUrl": "procedural:paint?base=%2333493b",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "matte",
+        "price": 640
+      },
+      {
+        "id": "velvet-matt-v2",
+        "sku": "MF-PNT-VM-02",
+        "name": "Charcoal",
+        "colorHex": "#3b3b3d",
+        "textureUrl": "procedural:paint?base=%233b3b3d",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "matte",
+        "price": 640
+      },
+      {
+        "id": "velvet-matt-v3",
+        "sku": "MF-PNT-VM-03",
+        "name": "Ochre",
+        "colorHex": "#c99a3b",
+        "textureUrl": "procedural:paint?base=%23c99a3b",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "matte",
+        "price": 640
+      },
+      {
+        "id": "velvet-matt-v4",
+        "sku": "MF-PNT-VM-04",
+        "name": "Midnight Ink",
+        "colorHex": "#252d3f",
+        "textureUrl": "procedural:paint?base=%23252d3f",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "matte",
+        "price": 640
+      },
+      {
+        "id": "velvet-matt-v5",
+        "sku": "MF-PNT-VM-05",
+        "name": "Clay",
+        "colorHex": "#a8664d",
+        "textureUrl": "procedural:paint?base=%23a8664d",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "matte",
+        "price": 640
+      },
+      {
+        "id": "velvet-matt-v6",
+        "sku": "MF-PNT-VM-06",
+        "name": "Olive",
+        "colorHex": "#6b6b3f",
+        "textureUrl": "procedural:paint?base=%236b6b3f",
+        "tileSizeCm": {
+          "w": 100,
+          "h": 100
+        },
+        "finish": "matte",
+        "price": 640
+      }
+    ]
+  },
+  {
+    "id": "regency-stripe",
+    "sku": "MF-WP-RS",
+    "name": "Regency Stripe",
+    "categoryId": "wallpaper",
+    "description": "Classic two-tone stripe on a non-woven base. Paste-the-wall.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "roll",
+      "coverageM2": 5.3,
+      "wastage": 0.15
+    },
+    "variants": [
+      {
+        "id": "regency-stripe-v1",
+        "sku": "MF-WP-RS-01",
+        "name": "Champagne",
+        "colorHex": "#e8dcc3",
+        "textureUrl": "procedural:stripe?base=%23e8dcc3&alt=%23d4c3a1",
+        "tileSizeCm": {
+          "w": 53,
+          "h": 53
+        },
+        "finish": "matte",
+        "price": 3200
+      },
+      {
+        "id": "regency-stripe-v2",
+        "sku": "MF-WP-RS-02",
+        "name": "Duck Egg",
+        "colorHex": "#bfd3d1",
+        "textureUrl": "procedural:stripe?base=%23bfd3d1&alt=%23a6bfbc",
+        "tileSizeCm": {
+          "w": 53,
+          "h": 53
+        },
+        "finish": "matte",
+        "price": 3200
+      },
+      {
+        "id": "regency-stripe-v3",
+        "sku": "MF-WP-RS-03",
+        "name": "Noir",
+        "colorHex": "#2c2c2e",
+        "textureUrl": "procedural:stripe?base=%232c2c2e&alt=%233e3e42",
+        "tileSizeCm": {
+          "w": 53,
+          "h": 53
+        },
+        "finish": "matte",
+        "price": 3200
+      },
+      {
+        "id": "regency-stripe-v4",
+        "sku": "MF-WP-RS-04",
+        "name": "Rosewater",
+        "colorHex": "#ead2c8",
+        "textureUrl": "procedural:stripe?base=%23ead2c8&alt=%23d9b6a9",
+        "tileSizeCm": {
+          "w": 53,
+          "h": 53
+        },
+        "finish": "matte",
+        "price": 3200
+      }
+    ]
+  },
+  {
+    "id": "trellis",
+    "sku": "MF-WP-TR",
+    "name": "Moroccan Trellis",
+    "categoryId": "wallpaper",
+    "description": "Geometric lattice inspired by Moorish screens.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "roll",
+      "coverageM2": 5.3,
+      "wastage": 0.15
+    },
+    "variants": [
+      {
+        "id": "trellis-v1",
+        "sku": "MF-WP-TR-01",
+        "name": "Gold on Cream",
+        "colorHex": "#efe7d6",
+        "textureUrl": "procedural:trellis?base=%23efe7d6&alt=%23bf9b52",
+        "tileSizeCm": {
+          "w": 53,
+          "h": 53
+        },
+        "finish": "matte",
+        "price": 3650
+      },
+      {
+        "id": "trellis-v2",
+        "sku": "MF-WP-TR-02",
+        "name": "White on Teal",
+        "colorHex": "#2f6d6a",
+        "textureUrl": "procedural:trellis?base=%232f6d6a&alt=%23e9ece6",
+        "tileSizeCm": {
+          "w": 53,
+          "h": 53
+        },
+        "finish": "matte",
+        "price": 3650
+      },
+      {
+        "id": "trellis-v3",
+        "sku": "MF-WP-TR-03",
+        "name": "Grey on Linen",
+        "colorHex": "#ece6db",
+        "textureUrl": "procedural:trellis?base=%23ece6db&alt=%238b8a86",
+        "tileSizeCm": {
+          "w": 53,
+          "h": 53
+        },
+        "finish": "matte",
+        "price": 3650
+      }
+    ]
+  },
+  {
+    "id": "grasscloth",
+    "sku": "MF-WP-GC",
+    "name": "Natural Grasscloth",
+    "categoryId": "wallpaper",
+    "description": "Hand-woven natural fibres on paper backing — warm and textural.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "Eco"
+    ],
+    "pricing": {
+      "unit": "roll",
+      "coverageM2": 5.3,
+      "wastage": 0.15
+    },
+    "variants": [
+      {
+        "id": "grasscloth-v1",
+        "sku": "MF-WP-GC-01",
+        "name": "Sand",
+        "colorHex": "#cdb894",
+        "textureUrl": "procedural:grasscloth?base=%23cdb894&alt=%23b39d78",
+        "tileSizeCm": {
+          "w": 45,
+          "h": 45
+        },
+        "finish": "matte",
+        "price": 5400
+      },
+      {
+        "id": "grasscloth-v2",
+        "sku": "MF-WP-GC-02",
+        "name": "Moss",
+        "colorHex": "#8d906a",
+        "textureUrl": "procedural:grasscloth?base=%238d906a&alt=%23767856",
+        "tileSizeCm": {
+          "w": 45,
+          "h": 45
+        },
+        "finish": "matte",
+        "price": 5400
+      },
+      {
+        "id": "grasscloth-v3",
+        "sku": "MF-WP-GC-03",
+        "name": "Indigo",
+        "colorHex": "#3d4a66",
+        "textureUrl": "procedural:grasscloth?base=%233d4a66&alt=%232f3a52",
+        "tileSizeCm": {
+          "w": 45,
+          "h": 45
+        },
+        "finish": "matte",
+        "price": 5400
+      }
+    ]
+  },
+  {
+    "id": "botanical",
+    "sku": "MF-WP-BO",
+    "name": "Botanica",
+    "categoryId": "wallpaper",
+    "description": "Painterly palm leaves for a relaxed, garden feel.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "New"
+    ],
+    "pricing": {
+      "unit": "roll",
+      "coverageM2": 5.3,
+      "wastage": 0.15
+    },
+    "variants": [
+      {
+        "id": "botanical-v1",
+        "sku": "MF-WP-BO-01",
+        "name": "Sage on Ivory",
+        "colorHex": "#efe9dc",
+        "textureUrl": "procedural:botanical?base=%23efe9dc&alt=%238ea683",
+        "tileSizeCm": {
+          "w": 64,
+          "h": 64
+        },
+        "finish": "matte",
+        "price": 4800
+      },
+      {
+        "id": "botanical-v2",
+        "sku": "MF-WP-BO-02",
+        "name": "Jungle",
+        "colorHex": "#20352c",
+        "textureUrl": "procedural:botanical?base=%2320352c&alt=%234f7a5a",
+        "tileSizeCm": {
+          "w": 64,
+          "h": 64
+        },
+        "finish": "matte",
+        "price": 4800
+      },
+      {
+        "id": "botanical-v3",
+        "sku": "MF-WP-BO-03",
+        "name": "Blush Leaf",
+        "colorHex": "#f0e0d8",
+        "textureUrl": "procedural:botanical?base=%23f0e0d8&alt=%23c99a8c",
+        "tileSizeCm": {
+          "w": 64,
+          "h": 64
+        },
+        "finish": "matte",
+        "price": 4800
+      }
+    ]
+  },
+  {
+    "id": "arches",
+    "sku": "MF-WP-AR",
+    "name": "Sol Arches",
+    "categoryId": "wallpaper",
+    "description": "Mid-century arches in sun-baked tones.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "roll",
+      "coverageM2": 5.3,
+      "wastage": 0.15
+    },
+    "variants": [
+      {
+        "id": "arches-v1",
+        "sku": "MF-WP-AR-01",
+        "name": "Terracotta",
+        "colorHex": "#e9dccb",
+        "textureUrl": "procedural:arches?base=%23e9dccb&alt=%23c0714f&extra=%23e1a85a",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "matte",
+        "price": 4200
+      },
+      {
+        "id": "arches-v2",
+        "sku": "MF-WP-AR-02",
+        "name": "Sage & Ochre",
+        "colorHex": "#ece6d8",
+        "textureUrl": "procedural:arches?base=%23ece6d8&alt=%238fa58a&extra=%23d1a246",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "matte",
+        "price": 4200
+      },
+      {
+        "id": "arches-v3",
+        "sku": "MF-WP-AR-03",
+        "name": "Navy",
+        "colorHex": "#eae4d8",
+        "textureUrl": "procedural:arches?base=%23eae4d8&alt=%232f4058&extra=%23c56b3f",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "matte",
+        "price": 4200
+      }
+    ]
+  },
+  {
+    "id": "subway",
+    "sku": "MF-WT-SB",
+    "name": "Metro Subway 7.5×30",
+    "categoryId": "wall-tile",
+    "description": "Glazed ceramic brick tiles. Classic running bond.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "subway-v1",
+        "sku": "MF-WT-SB-01",
+        "name": "Gloss White",
+        "colorHex": "#f2f0eb",
+        "textureUrl": "procedural:subway?base=%23f2f0eb&alt=%23c9c4ba",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 30
+        },
+        "finish": "gloss",
+        "price": 1650
+      },
+      {
+        "id": "subway-v2",
+        "sku": "MF-WT-SB-02",
+        "name": "Sage",
+        "colorHex": "#a8b8a0",
+        "textureUrl": "procedural:subway?base=%23a8b8a0&alt=%238b9884",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 30
+        },
+        "finish": "gloss",
+        "price": 1650
+      },
+      {
+        "id": "subway-v3",
+        "sku": "MF-WT-SB-03",
+        "name": "Navy",
+        "colorHex": "#2d3c57",
+        "textureUrl": "procedural:subway?base=%232d3c57&alt=%231d2738",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 30
+        },
+        "finish": "gloss",
+        "price": 1650
+      },
+      {
+        "id": "subway-v4",
+        "sku": "MF-WT-SB-04",
+        "name": "Blush",
+        "colorHex": "#e5c4b9",
+        "textureUrl": "procedural:subway?base=%23e5c4b9&alt=%23c9a69a",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 30
+        },
+        "finish": "gloss",
+        "price": 1650
+      }
+    ]
+  },
+  {
+    "id": "zellige",
+    "sku": "MF-WT-ZL",
+    "name": "Zellige 10×10",
+    "categoryId": "wall-tile",
+    "description": "Hand-cut glazed terracotta with lively tonal variation.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "Handmade"
+    ],
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "zellige-v1",
+        "sku": "MF-WT-ZL-01",
+        "name": "Sage",
+        "colorHex": "#9fb39b",
+        "textureUrl": "procedural:zellige?base=%239fb39b&alt=%237f9580",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "gloss",
+        "price": 4900
+      },
+      {
+        "id": "zellige-v2",
+        "sku": "MF-WT-ZL-02",
+        "name": "Chalk",
+        "colorHex": "#ece9e1",
+        "textureUrl": "procedural:zellige?base=%23ece9e1&alt=%23d5d0c4",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "gloss",
+        "price": 4900
+      },
+      {
+        "id": "zellige-v3",
+        "sku": "MF-WT-ZL-03",
+        "name": "Ocean",
+        "colorHex": "#2f5d6b",
+        "textureUrl": "procedural:zellige?base=%232f5d6b&alt=%23244a56",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "gloss",
+        "price": 4900
+      },
+      {
+        "id": "zellige-v4",
+        "sku": "MF-WT-ZL-04",
+        "name": "Terracotta",
+        "colorHex": "#c0714f",
+        "textureUrl": "procedural:zellige?base=%23c0714f&alt=%23a65c3d",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "gloss",
+        "price": 4900
+      }
+    ]
+  },
+  {
+    "id": "hex-mosaic",
+    "sku": "MF-WT-HX",
+    "name": "Hex Mosaic",
+    "categoryId": "wall-tile",
+    "description": "Matt porcelain hexagon mosaic sheets.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "hex-mosaic-v1",
+        "sku": "MF-WT-HX-01",
+        "name": "White",
+        "colorHex": "#efede8",
+        "textureUrl": "procedural:hex?base=%23efede8&alt=%23c7c2b8",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 17.32
+        },
+        "finish": "satin",
+        "price": 2900
+      },
+      {
+        "id": "hex-mosaic-v2",
+        "sku": "MF-WT-HX-02",
+        "name": "Charcoal",
+        "colorHex": "#3b3b3d",
+        "textureUrl": "procedural:hex?base=%233b3b3d&alt=%232a2a2c",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 17.32
+        },
+        "finish": "satin",
+        "price": 2900
+      },
+      {
+        "id": "hex-mosaic-v3",
+        "sku": "MF-WT-HX-03",
+        "name": "Mint",
+        "colorHex": "#bcd4c6",
+        "textureUrl": "procedural:hex?base=%23bcd4c6&alt=%239fbbaa",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 17.32
+        },
+        "finish": "satin",
+        "price": 2900
+      }
+    ]
+  },
+  {
+    "id": "oak-plank",
+    "sku": "MF-FL-OP",
+    "name": "European Oak Plank",
+    "categoryId": "flooring",
+    "description": "Engineered oak, 190 mm boards, brushed and oiled.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "Bestseller"
+    ],
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "oak-plank-v1",
+        "sku": "MF-FL-OP-01",
+        "name": "Natural Oak",
+        "colorHex": "#b98b5a",
+        "textureUrl": "procedural:plank?base=%23b98b5a&alt=%239c7046",
+        "tileSizeCm": {
+          "w": 76,
+          "h": 120
+        },
+        "finish": "satin",
+        "price": 4100
+      },
+      {
+        "id": "oak-plank-v2",
+        "sku": "MF-FL-OP-02",
+        "name": "Smoked Oak",
+        "colorHex": "#6e4e35",
+        "textureUrl": "procedural:plank?base=%236e4e35&alt=%2356392a",
+        "tileSizeCm": {
+          "w": 76,
+          "h": 120
+        },
+        "finish": "satin",
+        "price": 4100
+      },
+      {
+        "id": "oak-plank-v3",
+        "sku": "MF-FL-OP-03",
+        "name": "Whitewash",
+        "colorHex": "#d9cbb5",
+        "textureUrl": "procedural:plank?base=%23d9cbb5&alt=%23c3b398",
+        "tileSizeCm": {
+          "w": 76,
+          "h": 120
+        },
+        "finish": "satin",
+        "price": 4100
+      },
+      {
+        "id": "oak-plank-v4",
+        "sku": "MF-FL-OP-04",
+        "name": "Honey",
+        "colorHex": "#c99a5e",
+        "textureUrl": "procedural:plank?base=%23c99a5e&alt=%23ad7f45",
+        "tileSizeCm": {
+          "w": 76,
+          "h": 120
+        },
+        "finish": "satin",
+        "price": 4100
+      }
+    ]
+  },
+  {
+    "id": "herringbone",
+    "sku": "MF-FL-HB",
+    "name": "Herringbone Parquet",
+    "categoryId": "flooring",
+    "description": "Solid oak blocks laid in a classic herringbone.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "herringbone-v1",
+        "sku": "MF-FL-HB-01",
+        "name": "Honey",
+        "colorHex": "#c2925c",
+        "textureUrl": "procedural:herringbone?base=%23c2925c&alt=%23a87a49",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "satin",
+        "price": 5600
+      },
+      {
+        "id": "herringbone-v2",
+        "sku": "MF-FL-HB-02",
+        "name": "Walnut",
+        "colorHex": "#6b4a33",
+        "textureUrl": "procedural:herringbone?base=%236b4a33&alt=%23553826",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "satin",
+        "price": 5600
+      },
+      {
+        "id": "herringbone-v3",
+        "sku": "MF-FL-HB-03",
+        "name": "Ash",
+        "colorHex": "#cbbba3",
+        "textureUrl": "procedural:herringbone?base=%23cbbba3&alt=%23b3a287",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "satin",
+        "price": 5600
+      }
+    ]
+  },
+  {
+    "id": "marble-tile",
+    "sku": "MF-FL-MT",
+    "name": "Marble Porcelain 60×60",
+    "categoryId": "flooring",
+    "description": "Polished porcelain with a natural marble look.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "marble-tile-v1",
+        "sku": "MF-FL-MT-01",
+        "name": "Carrara",
+        "colorHex": "#eeeeec",
+        "textureUrl": "procedural:tile?base=%23eeeeec&alt=%23c9c9c9",
+        "tileSizeCm": {
+          "w": 120,
+          "h": 120
+        },
+        "finish": "gloss",
+        "price": 3800
+      },
+      {
+        "id": "marble-tile-v2",
+        "sku": "MF-FL-MT-02",
+        "name": "Nero",
+        "colorHex": "#2a2a2c",
+        "textureUrl": "procedural:tile?base=%232a2a2c&alt=%235a5a5e",
+        "tileSizeCm": {
+          "w": 120,
+          "h": 120
+        },
+        "finish": "gloss",
+        "price": 3800
+      },
+      {
+        "id": "marble-tile-v3",
+        "sku": "MF-FL-MT-03",
+        "name": "Calacatta",
+        "colorHex": "#f2efe8",
+        "textureUrl": "procedural:tile?base=%23f2efe8&alt=%23c8ab7a",
+        "tileSizeCm": {
+          "w": 120,
+          "h": 120
+        },
+        "finish": "gloss",
+        "price": 3800
+      }
+    ]
+  },
+  {
+    "id": "terrazzo",
+    "sku": "MF-FL-TZ",
+    "name": "Terrazzo 60×60",
+    "categoryId": "flooring",
+    "description": "Venetian-style terrazzo with marble chips.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "New"
+    ],
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "terrazzo-v1",
+        "sku": "MF-FL-TZ-01",
+        "name": "Bianco",
+        "colorHex": "#e8e4dc",
+        "textureUrl": "procedural:terrazzo?base=%23e8e4dc&alt=%23a59c8f&extra=%23c0714f",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "satin",
+        "price": 4600
+      },
+      {
+        "id": "terrazzo-v2",
+        "sku": "MF-FL-TZ-02",
+        "name": "Rosa",
+        "colorHex": "#e9d6cc",
+        "textureUrl": "procedural:terrazzo?base=%23e9d6cc&alt=%23b98576&extra=%236b6b6b",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "satin",
+        "price": 4600
+      },
+      {
+        "id": "terrazzo-v3",
+        "sku": "MF-FL-TZ-03",
+        "name": "Verde",
+        "colorHex": "#d8dfd5",
+        "textureUrl": "procedural:terrazzo?base=%23d8dfd5&alt=%235f7a65&extra=%23c9a46a",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "satin",
+        "price": 4600
+      }
+    ]
+  },
+  {
+    "id": "checker",
+    "sku": "MF-FL-CK",
+    "name": "Checkerboard Tile",
+    "categoryId": "flooring",
+    "description": "Bold 30×30 two-tone checkerboard.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "checker-v1",
+        "sku": "MF-FL-CK-01",
+        "name": "Black & White",
+        "colorHex": "#efede8",
+        "textureUrl": "procedural:checker?base=%23efede8&alt=%232a2a2c",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "satin",
+        "price": 3300
+      },
+      {
+        "id": "checker-v2",
+        "sku": "MF-FL-CK-02",
+        "name": "Sage & Cream",
+        "colorHex": "#ece6d8",
+        "textureUrl": "procedural:checker?base=%23ece6d8&alt=%238fa58a",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "satin",
+        "price": 3300
+      },
+      {
+        "id": "checker-v3",
+        "sku": "MF-FL-CK-03",
+        "name": "Terracotta & Sand",
+        "colorHex": "#e2d3bb",
+        "textureUrl": "procedural:checker?base=%23e2d3bb&alt=%23b56a4a",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 60
+        },
+        "finish": "satin",
+        "price": 3300
+      }
+    ]
+  },
+  {
+    "id": "berber-rug",
+    "sku": "MF-RG-BB",
+    "name": "Atlas Berber Rug",
+    "categoryId": "rug",
+    "description": "Hand-knotted wool with a soft diamond lattice.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "Handmade"
+    ],
+    "pricing": {
+      "unit": "piece"
+    },
+    "variants": [
+      {
+        "id": "berber-rug-v1",
+        "sku": "MF-RG-BB-01",
+        "name": "Ivory",
+        "colorHex": "#ece6da",
+        "textureUrl": "procedural:berber?base=%23ece6da&alt=%233b3631",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 24500
+      },
+      {
+        "id": "berber-rug-v2",
+        "sku": "MF-RG-BB-02",
+        "name": "Charcoal",
+        "colorHex": "#4a4744",
+        "textureUrl": "procedural:berber?base=%234a4744&alt=%23d9d3c7",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 26500
+      }
+    ]
+  },
+  {
+    "id": "medallion-rug",
+    "sku": "MF-RG-MD",
+    "name": "Heirloom Medallion Rug",
+    "categoryId": "rug",
+    "description": "Traditional medallion design with a worn, vintage wash.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "piece"
+    },
+    "variants": [
+      {
+        "id": "medallion-rug-v1",
+        "sku": "MF-RG-MD-01",
+        "name": "Rust & Indigo",
+        "colorHex": "#a8553d",
+        "textureUrl": "procedural:medallion?base=%23a8553d&alt=%232f3c58&extra=%23e1c9a0",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 38500
+      },
+      {
+        "id": "medallion-rug-v2",
+        "sku": "MF-RG-MD-02",
+        "name": "Navy & Gold",
+        "colorHex": "#22304a",
+        "textureUrl": "procedural:medallion?base=%2322304a&alt=%23c49a4d&extra=%23e7dcc6",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 38500
+      },
+      {
+        "id": "medallion-rug-v3",
+        "sku": "MF-RG-MD-03",
+        "name": "Faded Rose",
+        "colorHex": "#c79a92",
+        "textureUrl": "procedural:medallion?base=%23c79a92&alt=%236f7a8a&extra=%23efe2d2",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 38500
+      }
+    ]
+  },
+  {
+    "id": "jute-rug",
+    "sku": "MF-RG-JT",
+    "name": "Natural Jute Rug",
+    "categoryId": "rug",
+    "description": "Chunky herringbone-weave jute with a cotton border.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "Eco"
+    ],
+    "pricing": {
+      "unit": "piece"
+    },
+    "variants": [
+      {
+        "id": "jute-rug-v1",
+        "sku": "MF-RG-JT-01",
+        "name": "Natural",
+        "colorHex": "#c4a77a",
+        "textureUrl": "procedural:jute?base=%23c4a77a&alt=%23ece6da",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 12800
+      },
+      {
+        "id": "jute-rug-v2",
+        "sku": "MF-RG-JT-02",
+        "name": "Bleached",
+        "colorHex": "#d9cbb0",
+        "textureUrl": "procedural:jute?base=%23d9cbb0&alt=%233b3631",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 12800
+      }
+    ]
+  },
+  {
+    "id": "kilim-rug",
+    "sku": "MF-RG-KL",
+    "name": "Anatolia Kilim",
+    "categoryId": "rug",
+    "description": "Flat-woven kilim with bold tribal motifs.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "piece"
+    },
+    "variants": [
+      {
+        "id": "kilim-rug-v1",
+        "sku": "MF-RG-KL-01",
+        "name": "Spice",
+        "colorHex": "#b5583a",
+        "textureUrl": "procedural:kilim?base=%23b5583a&alt=%232f3c58&extra=%23e2c48d",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 21900
+      },
+      {
+        "id": "kilim-rug-v2",
+        "sku": "MF-RG-KL-02",
+        "name": "Sage",
+        "colorHex": "#8fa58a",
+        "textureUrl": "procedural:kilim?base=%238fa58a&alt=%233b4a3f&extra=%23ece6d8",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 21900
+      }
+    ]
+  },
+  {
+    "id": "stripe-rug",
+    "sku": "MF-RG-ST",
+    "name": "Coastal Stripe Rug",
+    "categoryId": "rug",
+    "description": "Washable flat-weave in a breezy stripe.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "piece"
+    },
+    "variants": [
+      {
+        "id": "stripe-rug-v1",
+        "sku": "MF-RG-ST-01",
+        "name": "Navy",
+        "colorHex": "#ece6da",
+        "textureUrl": "procedural:striperug?base=%23ece6da&alt=%232f4058",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 15600
+      },
+      {
+        "id": "stripe-rug-v2",
+        "sku": "MF-RG-ST-02",
+        "name": "Ochre",
+        "colorHex": "#ece6da",
+        "textureUrl": "procedural:striperug?base=%23ece6da&alt=%23c99a3b",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 15600
+      },
+      {
+        "id": "stripe-rug-v3",
+        "sku": "MF-RG-ST-03",
+        "name": "Sage",
+        "colorHex": "#ece6da",
+        "textureUrl": "procedural:striperug?base=%23ece6da&alt=%238fa58a",
+        "tileSizeCm": {
+          "w": 270,
+          "h": 200
+        },
+        "tiling": "stretch",
+        "finish": "matte",
+        "price": 15600
+      }
+    ]
+  },
+  {
+    "id": "belgian-linen",
+    "sku": "MF-UP-BL",
+    "name": "Belgian Linen",
+    "categoryId": "upholstery",
+    "description": "Heavy-weight upholstery linen, 40,000 rubs.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "Bestseller"
+    ],
+    "pricing": {
+      "unit": "metre",
+      "coverageM2": 1.1,
+      "wastage": 0.25
+    },
+    "variants": [
+      {
+        "id": "belgian-linen-v1",
+        "sku": "MF-UP-BL-01",
+        "name": "Oatmeal",
+        "colorHex": "#cbbda4",
+        "textureUrl": "procedural:linen?base=%23cbbda4&alt=%23b5a68b",
+        "tileSizeCm": {
+          "w": 14,
+          "h": 14
+        },
+        "finish": "matte",
+        "price": 1850
+      },
+      {
+        "id": "belgian-linen-v2",
+        "sku": "MF-UP-BL-02",
+        "name": "Slate",
+        "colorHex": "#6d7277",
+        "textureUrl": "procedural:linen?base=%236d7277&alt=%235a5f64",
+        "tileSizeCm": {
+          "w": 14,
+          "h": 14
+        },
+        "finish": "matte",
+        "price": 1850
+      },
+      {
+        "id": "belgian-linen-v3",
+        "sku": "MF-UP-BL-03",
+        "name": "Rust",
+        "colorHex": "#a5553a",
+        "textureUrl": "procedural:linen?base=%23a5553a&alt=%238c4630",
+        "tileSizeCm": {
+          "w": 14,
+          "h": 14
+        },
+        "finish": "matte",
+        "price": 1850
+      },
+      {
+        "id": "belgian-linen-v4",
+        "sku": "MF-UP-BL-04",
+        "name": "Sage",
+        "colorHex": "#97a58c",
+        "textureUrl": "procedural:linen?base=%2397a58c&alt=%2382927a",
+        "tileSizeCm": {
+          "w": 14,
+          "h": 14
+        },
+        "finish": "matte",
+        "price": 1850
+      },
+      {
+        "id": "belgian-linen-v5",
+        "sku": "MF-UP-BL-05",
+        "name": "Chalk",
+        "colorHex": "#e6e1d7",
+        "textureUrl": "procedural:linen?base=%23e6e1d7&alt=%23d2ccc0",
+        "tileSizeCm": {
+          "w": 14,
+          "h": 14
+        },
+        "finish": "matte",
+        "price": 1850
+      }
+    ]
+  },
+  {
+    "id": "boucle",
+    "sku": "MF-UP-BC",
+    "name": "Cloud Bouclé",
+    "categoryId": "upholstery",
+    "description": "Looped texture with a soft, cocooning hand-feel.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "New"
+    ],
+    "pricing": {
+      "unit": "metre",
+      "coverageM2": 1.1,
+      "wastage": 0.25
+    },
+    "variants": [
+      {
+        "id": "boucle-v1",
+        "sku": "MF-UP-BC-01",
+        "name": "Snow",
+        "colorHex": "#efebe4",
+        "textureUrl": "procedural:boucle?base=%23efebe4&alt=%23d9d3c8",
+        "tileSizeCm": {
+          "w": 10,
+          "h": 10
+        },
+        "finish": "matte",
+        "price": 2600
+      },
+      {
+        "id": "boucle-v2",
+        "sku": "MF-UP-BC-02",
+        "name": "Caramel",
+        "colorHex": "#b88a5a",
+        "textureUrl": "procedural:boucle?base=%23b88a5a&alt=%239e7246",
+        "tileSizeCm": {
+          "w": 10,
+          "h": 10
+        },
+        "finish": "matte",
+        "price": 2600
+      },
+      {
+        "id": "boucle-v3",
+        "sku": "MF-UP-BC-03",
+        "name": "Pebble",
+        "colorHex": "#a19a90",
+        "textureUrl": "procedural:boucle?base=%23a19a90&alt=%238a837a",
+        "tileSizeCm": {
+          "w": 10,
+          "h": 10
+        },
+        "finish": "matte",
+        "price": 2600
+      }
+    ]
+  },
+  {
+    "id": "velvet",
+    "sku": "MF-UP-VV",
+    "name": "Cotton Velvet",
+    "categoryId": "upholstery",
+    "description": "Rich short-pile velvet with a gentle lustre.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "metre",
+      "coverageM2": 1.1,
+      "wastage": 0.25
+    },
+    "variants": [
+      {
+        "id": "velvet-v1",
+        "sku": "MF-UP-VV-01",
+        "name": "Emerald",
+        "colorHex": "#1f5a4a",
+        "textureUrl": "procedural:velvet?base=%231f5a4a&alt=%232c7360",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 2950
+      },
+      {
+        "id": "velvet-v2",
+        "sku": "MF-UP-VV-02",
+        "name": "Mustard",
+        "colorHex": "#c3912d",
+        "textureUrl": "procedural:velvet?base=%23c3912d&alt=%23d6a640",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 2950
+      },
+      {
+        "id": "velvet-v3",
+        "sku": "MF-UP-VV-03",
+        "name": "Navy",
+        "colorHex": "#1f2b4a",
+        "textureUrl": "procedural:velvet?base=%231f2b4a&alt=%232c3b61",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 2950
+      },
+      {
+        "id": "velvet-v4",
+        "sku": "MF-UP-VV-04",
+        "name": "Rose",
+        "colorHex": "#b97a80",
+        "textureUrl": "procedural:velvet?base=%23b97a80&alt=%23cc8f95",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 2950
+      },
+      {
+        "id": "velvet-v5",
+        "sku": "MF-UP-VV-05",
+        "name": "Teal",
+        "colorHex": "#1d5560",
+        "textureUrl": "procedural:velvet?base=%231d5560&alt=%232a6d79",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 2950
+      },
+      {
+        "id": "velvet-v6",
+        "sku": "MF-UP-VV-06",
+        "name": "Terracotta",
+        "colorHex": "#a5553a",
+        "textureUrl": "procedural:velvet?base=%23a5553a&alt=%23bd6847",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 2950
+      }
+    ]
+  },
+  {
+    "id": "leather",
+    "sku": "MF-UP-LT",
+    "name": "Aniline Leather",
+    "categoryId": "upholstery",
+    "description": "Full-grain aniline leather that patinas beautifully.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "metre",
+      "coverageM2": 1.1,
+      "wastage": 0.25
+    },
+    "variants": [
+      {
+        "id": "leather-v1",
+        "sku": "MF-UP-LT-01",
+        "name": "Cognac",
+        "colorHex": "#8a4b26",
+        "textureUrl": "procedural:leather?base=%238a4b26&alt=%236f3a1c",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 4800
+      },
+      {
+        "id": "leather-v2",
+        "sku": "MF-UP-LT-02",
+        "name": "Espresso",
+        "colorHex": "#3d2a20",
+        "textureUrl": "procedural:leather?base=%233d2a20&alt=%232a1d16",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 4800
+      },
+      {
+        "id": "leather-v3",
+        "sku": "MF-UP-LT-03",
+        "name": "Black",
+        "colorHex": "#1e1e20",
+        "textureUrl": "procedural:leather?base=%231e1e20&alt=%232c2c2e",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 4800
+      },
+      {
+        "id": "leather-v4",
+        "sku": "MF-UP-LT-04",
+        "name": "Tan",
+        "colorHex": "#b07a4a",
+        "textureUrl": "procedural:leather?base=%23b07a4a&alt=%2394643a",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 4800
+      }
+    ]
+  },
+  {
+    "id": "performance-weave",
+    "sku": "MF-UP-PW",
+    "name": "Performance Weave",
+    "categoryId": "upholstery",
+    "description": "Stain-resistant, easy-clean basketweave.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "Pet friendly"
+    ],
+    "pricing": {
+      "unit": "metre",
+      "coverageM2": 1.1,
+      "wastage": 0.25
+    },
+    "variants": [
+      {
+        "id": "performance-weave-v1",
+        "sku": "MF-UP-PW-01",
+        "name": "Stone",
+        "colorHex": "#b5aea2",
+        "textureUrl": "procedural:weave?base=%23b5aea2&alt=%239d968a",
+        "tileSizeCm": {
+          "w": 12,
+          "h": 12
+        },
+        "finish": "matte",
+        "price": 1450
+      },
+      {
+        "id": "performance-weave-v2",
+        "sku": "MF-UP-PW-02",
+        "name": "Denim",
+        "colorHex": "#4d6077",
+        "textureUrl": "procedural:weave?base=%234d6077&alt=%233d4f64",
+        "tileSizeCm": {
+          "w": 12,
+          "h": 12
+        },
+        "finish": "matte",
+        "price": 1450
+      },
+      {
+        "id": "performance-weave-v3",
+        "sku": "MF-UP-PW-03",
+        "name": "Olive",
+        "colorHex": "#7a7a52",
+        "textureUrl": "procedural:weave?base=%237a7a52&alt=%23666643",
+        "tileSizeCm": {
+          "w": 12,
+          "h": 12
+        },
+        "finish": "matte",
+        "price": 1450
+      },
+      {
+        "id": "performance-weave-v4",
+        "sku": "MF-UP-PW-04",
+        "name": "Graphite",
+        "colorHex": "#55585c",
+        "textureUrl": "procedural:weave?base=%2355585c&alt=%2345484c",
+        "tileSizeCm": {
+          "w": 12,
+          "h": 12
+        },
+        "finish": "matte",
+        "price": 1450
+      }
+    ]
+  },
+  {
+    "id": "linen-sheer",
+    "sku": "MF-CU-LS",
+    "name": "Linen Sheer",
+    "categoryId": "curtain",
+    "description": "Light-filtering linen voile.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "metre",
+      "coverageM2": 1.4,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "linen-sheer-v1",
+        "sku": "MF-CU-LS-01",
+        "name": "White",
+        "colorHex": "#f3f1ec",
+        "textureUrl": "procedural:sheer?base=%23f3f1ec&alt=%23e2ded6",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 980
+      },
+      {
+        "id": "linen-sheer-v2",
+        "sku": "MF-CU-LS-02",
+        "name": "Natural",
+        "colorHex": "#ddd2bf",
+        "textureUrl": "procedural:sheer?base=%23ddd2bf&alt=%23c9bca6",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 980
+      },
+      {
+        "id": "linen-sheer-v3",
+        "sku": "MF-CU-LS-03",
+        "name": "Mist",
+        "colorHex": "#c9cfcf",
+        "textureUrl": "procedural:sheer?base=%23c9cfcf&alt=%23b4bbbb",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 980
+      }
+    ]
+  },
+  {
+    "id": "blackout-velvet",
+    "sku": "MF-CU-BV",
+    "name": "Blackout Velvet",
+    "categoryId": "curtain",
+    "description": "Lined velvet drapery with full blackout.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "metre",
+      "coverageM2": 1.4,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "blackout-velvet-v1",
+        "sku": "MF-CU-BV-01",
+        "name": "Taupe",
+        "colorHex": "#8c7e6e",
+        "textureUrl": "procedural:velvet?base=%238c7e6e&alt=%23a09282",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 2400
+      },
+      {
+        "id": "blackout-velvet-v2",
+        "sku": "MF-CU-BV-02",
+        "name": "Emerald",
+        "colorHex": "#1f5a4a",
+        "textureUrl": "procedural:velvet?base=%231f5a4a&alt=%232c7360",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 2400
+      },
+      {
+        "id": "blackout-velvet-v3",
+        "sku": "MF-CU-BV-03",
+        "name": "Midnight",
+        "colorHex": "#202838",
+        "textureUrl": "procedural:velvet?base=%23202838&alt=%232c3548",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 2400
+      },
+      {
+        "id": "blackout-velvet-v4",
+        "sku": "MF-CU-BV-04",
+        "name": "Blush",
+        "colorHex": "#d4a9a0",
+        "textureUrl": "procedural:velvet?base=%23d4a9a0&alt=%23e2bab2",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 30
+        },
+        "finish": "satin",
+        "price": 2400
+      }
+    ]
+  },
+  {
+    "id": "ticking-stripe",
+    "sku": "MF-CU-TS",
+    "name": "Ticking Stripe",
+    "categoryId": "curtain",
+    "description": "Cotton-linen ticking, cottage classic.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "metre",
+      "coverageM2": 1.4,
+      "wastage": 0.1
+    },
+    "variants": [
+      {
+        "id": "ticking-stripe-v1",
+        "sku": "MF-CU-TS-01",
+        "name": "Navy",
+        "colorHex": "#efebe3",
+        "textureUrl": "procedural:ticking?base=%23efebe3&alt=%232f4058",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 1350
+      },
+      {
+        "id": "ticking-stripe-v2",
+        "sku": "MF-CU-TS-02",
+        "name": "Red",
+        "colorHex": "#efebe3",
+        "textureUrl": "procedural:ticking?base=%23efebe3&alt=%23a8443a",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 1350
+      },
+      {
+        "id": "ticking-stripe-v3",
+        "sku": "MF-CU-TS-03",
+        "name": "Charcoal",
+        "colorHex": "#efebe3",
+        "textureUrl": "procedural:ticking?base=%23efebe3&alt=%233b3b3d",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 1350
+      }
+    ]
+  },
+  {
+    "id": "percale-duvet",
+    "sku": "MF-BD-PC",
+    "name": "Percale Duvet Cover",
+    "categoryId": "bedding",
+    "description": "300TC organic cotton percale, crisp and cool. King.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "piece"
+    },
+    "variants": [
+      {
+        "id": "percale-duvet-v1",
+        "sku": "MF-BD-PC-01",
+        "name": "White",
+        "colorHex": "#f4f2ee",
+        "textureUrl": "procedural:percale?base=%23f4f2ee&alt=%23e7e3dc",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "matte",
+        "price": 5200
+      },
+      {
+        "id": "percale-duvet-v2",
+        "sku": "MF-BD-PC-02",
+        "name": "Sage",
+        "colorHex": "#b7c2ad",
+        "textureUrl": "procedural:percale?base=%23b7c2ad&alt=%23a5b19b",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "matte",
+        "price": 5200
+      },
+      {
+        "id": "percale-duvet-v3",
+        "sku": "MF-BD-PC-03",
+        "name": "Blush",
+        "colorHex": "#ebcdc4",
+        "textureUrl": "procedural:percale?base=%23ebcdc4&alt=%23dcbab0",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "matte",
+        "price": 5200
+      },
+      {
+        "id": "percale-duvet-v4",
+        "sku": "MF-BD-PC-04",
+        "name": "Charcoal",
+        "colorHex": "#4a4a4c",
+        "textureUrl": "procedural:percale?base=%234a4a4c&alt=%233a3a3c",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "matte",
+        "price": 5200
+      }
+    ]
+  },
+  {
+    "id": "washed-linen",
+    "sku": "MF-BD-WL",
+    "name": "Washed Linen Duvet Cover",
+    "categoryId": "bedding",
+    "description": "Stone-washed French linen with a relaxed, rumpled look. King.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "Bestseller"
+    ],
+    "pricing": {
+      "unit": "piece"
+    },
+    "variants": [
+      {
+        "id": "washed-linen-v1",
+        "sku": "MF-BD-WL-01",
+        "name": "Oat",
+        "colorHex": "#d8ccb6",
+        "textureUrl": "procedural:linen?base=%23d8ccb6&alt=%23c7b9a1",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 7400
+      },
+      {
+        "id": "washed-linen-v2",
+        "sku": "MF-BD-WL-02",
+        "name": "Clay",
+        "colorHex": "#c08a72",
+        "textureUrl": "procedural:linen?base=%23c08a72&alt=%23ad7760",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 7400
+      },
+      {
+        "id": "washed-linen-v3",
+        "sku": "MF-BD-WL-03",
+        "name": "Ocean",
+        "colorHex": "#7c93a3",
+        "textureUrl": "procedural:linen?base=%237c93a3&alt=%236a8191",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 7400
+      }
+    ]
+  },
+  {
+    "id": "stripe-duvet",
+    "sku": "MF-BD-ST",
+    "name": "Hotel Stripe Duvet Cover",
+    "categoryId": "bedding",
+    "description": "Fine woven stripe in long-staple cotton. King.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "piece"
+    },
+    "variants": [
+      {
+        "id": "stripe-duvet-v1",
+        "sku": "MF-BD-ST-01",
+        "name": "Blue",
+        "colorHex": "#f2f0eb",
+        "textureUrl": "procedural:ticking?base=%23f2f0eb&alt=%235b7896",
+        "tileSizeCm": {
+          "w": 24,
+          "h": 24
+        },
+        "finish": "matte",
+        "price": 4600
+      },
+      {
+        "id": "stripe-duvet-v2",
+        "sku": "MF-BD-ST-02",
+        "name": "Sage",
+        "colorHex": "#f2f0eb",
+        "textureUrl": "procedural:ticking?base=%23f2f0eb&alt=%237f9a83",
+        "tileSizeCm": {
+          "w": 24,
+          "h": 24
+        },
+        "finish": "matte",
+        "price": 4600
+      }
+    ]
+  },
+  {
+    "id": "matte-laminate",
+    "sku": "MF-LM-MT",
+    "name": "Super-Matt Laminate",
+    "categoryId": "laminate",
+    "description": "Anti-fingerprint super-matt finish for doors and shutters.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.15
+    },
+    "variants": [
+      {
+        "id": "matte-laminate-v1",
+        "sku": "MF-LM-MT-01",
+        "name": "Warm White",
+        "colorHex": "#ece8df",
+        "textureUrl": "procedural:laminate?base=%23ece8df",
+        "tileSizeCm": {
+          "w": 120,
+          "h": 120
+        },
+        "finish": "matte",
+        "price": 1450
+      },
+      {
+        "id": "matte-laminate-v2",
+        "sku": "MF-LM-MT-02",
+        "name": "Sage",
+        "colorHex": "#9aab95",
+        "textureUrl": "procedural:laminate?base=%239aab95",
+        "tileSizeCm": {
+          "w": 120,
+          "h": 120
+        },
+        "finish": "matte",
+        "price": 1450
+      },
+      {
+        "id": "matte-laminate-v3",
+        "sku": "MF-LM-MT-03",
+        "name": "Clay",
+        "colorHex": "#b98a72",
+        "textureUrl": "procedural:laminate?base=%23b98a72",
+        "tileSizeCm": {
+          "w": 120,
+          "h": 120
+        },
+        "finish": "matte",
+        "price": 1450
+      },
+      {
+        "id": "matte-laminate-v4",
+        "sku": "MF-LM-MT-04",
+        "name": "Navy",
+        "colorHex": "#2c3a52",
+        "textureUrl": "procedural:laminate?base=%232c3a52",
+        "tileSizeCm": {
+          "w": 120,
+          "h": 120
+        },
+        "finish": "matte",
+        "price": 1450
+      },
+      {
+        "id": "matte-laminate-v5",
+        "sku": "MF-LM-MT-05",
+        "name": "Graphite",
+        "colorHex": "#3c3d40",
+        "textureUrl": "procedural:laminate?base=%233c3d40",
+        "tileSizeCm": {
+          "w": 120,
+          "h": 120
+        },
+        "finish": "matte",
+        "price": 1450
+      }
+    ]
+  },
+  {
+    "id": "walnut-veneer",
+    "sku": "MF-LM-WV",
+    "name": "Walnut Veneer",
+    "categoryId": "laminate",
+    "description": "Book-matched American walnut veneer.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.15
+    },
+    "variants": [
+      {
+        "id": "walnut-veneer-v1",
+        "sku": "MF-LM-WV-01",
+        "name": "Walnut",
+        "colorHex": "#6a4a33",
+        "textureUrl": "procedural:veneer?base=%236a4a33&alt=%234f3524",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 120
+        },
+        "finish": "satin",
+        "price": 3800
+      },
+      {
+        "id": "walnut-veneer-v2",
+        "sku": "MF-LM-WV-02",
+        "name": "Light Oak",
+        "colorHex": "#c9a77c",
+        "textureUrl": "procedural:veneer?base=%23c9a77c&alt=%23b08d62",
+        "tileSizeCm": {
+          "w": 60,
+          "h": 120
+        },
+        "finish": "satin",
+        "price": 3800
+      }
+    ]
+  },
+  {
+    "id": "fluted-oak",
+    "sku": "MF-LM-FO",
+    "name": "Fluted Oak Panel",
+    "categoryId": "laminate",
+    "description": "Reeded oak-look panel for a tactile, architectural front.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "New"
+    ],
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.15
+    },
+    "variants": [
+      {
+        "id": "fluted-oak-v1",
+        "sku": "MF-LM-FO-01",
+        "name": "Natural",
+        "colorHex": "#c19a6b",
+        "textureUrl": "procedural:fluted?base=%23c19a6b&alt=%23a07d52",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 60
+        },
+        "finish": "matte",
+        "price": 4400
+      },
+      {
+        "id": "fluted-oak-v2",
+        "sku": "MF-LM-FO-02",
+        "name": "Black",
+        "colorHex": "#2a2827",
+        "textureUrl": "procedural:fluted?base=%232a2827&alt=%231c1b1a",
+        "tileSizeCm": {
+          "w": 30,
+          "h": 60
+        },
+        "finish": "matte",
+        "price": 4400
+      }
+    ]
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "name": "@madan/room-visualizer",
+  "version": "0.1.0",
+  "description": "Room visualizer for Madan Furnishers: apply products and variants to surfaces in room photos.",
+  "type": "module",
+  "files": [
+    "dist",
+    "tailwind.preset.js"
+  ],
+  "main": "./dist/room-visualizer.js",
+  "module": "./dist/room-visualizer.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/room-visualizer.js"
+    },
+    "./mock": {
+      "types": "./dist/mock.d.ts",
+      "import": "./dist/mock.js"
+    },
+    "./tailwind-preset": "./tailwind.preset.js"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "build:playground": "vite build --mode playground",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "scenes": "node scripts/scene/generate.ts",
+    "scenes:preview": "node scripts/scene/generate.ts --preview",
+    "catalog": "node scripts/gen-mock-products.cjs",
+    "shoot": "node scripts/shoot.mjs",
+    "prepare": "vite build"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "@typescript/typescript6": "^6.0.2",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.28",
+    "puppeteer-core": "^25.12.0",
+    "tailwindcss": "^3.4.19",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "~5.9",
+    "vite": "^8.3.2",
+    "vite-plugin-dts": "^5.1.1",
+    "vitest": "^5.0.3",
+    "vue": "^3.5.43",
+    "vue-tsc": "^3.3.11"
+  },
+  "dependencies": {
+    "@vueuse/core": "^15.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-vue-next": "^1.0.0",
+    "reka-ui": "^2.10.5",
+    "tailwind-merge": "^3.7.0",
+    "vue-sonner": "^2.0.9"
+  },
+  "private": true
+}

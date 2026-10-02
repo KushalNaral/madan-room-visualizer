@@ -1,0 +1,47 @@
+[
+  {
+    "id": "paint",
+    "name": "Paint",
+    "icon": "paint-roller"
+  },
+  {
+    "id": "wallpaper",
+    "name": "Wallpaper",
+    "icon": "wallpaper"
+  },
+  {
+    "id": "wall-tile",
+    "name": "Wall tiles",
+    "icon": "grid-3x3"
+  },
+  {
+    "id": "flooring",
+    "name": "Flooring",
+    "icon": "layers"
+  },
+  {
+    "id": "rug",
+    "name": "Rugs",
+    "icon": "rectangle-horizontal"
+  },
+  {
+    "id": "upholstery",
+    "name": "Upholstery",
+    "icon": "sofa"
+  },
+  {
+    "id": "curtain",
+    "name": "Curtains",
+    "icon": "blinds"
+  },
+  {
+    "id": "bedding",
+    "name": "Bedding",
+    "icon": "bed-double"
+  },
+  {
+    "id": "laminate",
+    "name": "Laminates",
+    "icon": "panels-top-left"
+  }
+]
