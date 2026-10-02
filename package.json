@@ -19,6 +19,10 @@
       "types": "./dist/mock.d.ts",
       "import": "./dist/mock.js"
     },
+    "./url": {
+      "types": "./dist/url.d.ts",
+      "import": "./dist/url.js"
+    },
     "./tailwind-preset": "./tailwind.preset.js"
   },
   "scripts": {
