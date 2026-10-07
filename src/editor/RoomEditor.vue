@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { onKeyStroke, useEventListener } from '@vueuse/core'
 import {
   Brush,
@@ -25,8 +25,8 @@ import { Button } from '../components/ui/button'
 import { Slider } from '../components/ui/slider'
 import { TooltipProvider } from '../components/ui/tooltip'
 import Tip from '../components/ui/tooltip/Tip.vue'
-import { SegmentClient } from './ai/client'
-import type { ModelName, WorkerConfig } from './ai/protocol'
+import { isModelCached, SegmentClient } from './ai/client'
+import { SEGFORMERS, type DetectQuality, type ModelName, type WorkerConfig } from './ai/protocol'
 import DetectPanel from './DetectPanel.vue'
 import EditorCanvas from './EditorCanvas.vue'
 import InlinePreview from './InlinePreview.vue'
@@ -38,6 +38,7 @@ import { fitPlane } from './lib/planeFit'
 import { suggestAccepts, type InheritedCategories, type PresetKind } from './lib/presets'
 import { fitWarp } from './lib/warpFit'
 import { useDetection } from './useDetection'
+import { combinedDownload, deviceInfo, overallProgress, pickQuality, saveData } from './lib/readiness'
 import { useEditorState, type SurfaceStep } from './useEditorState'
 import { useMaskTools, type Tool } from './useMaskTools'
 
@@ -69,8 +70,12 @@ const props = withDefaults(
     audience?: 'staff' | 'shopper'
     /** Photos larger than this (long side, px) are scaled down on upload; 0 keeps them as they are. */
     maxPhotoSide?: number
+    /** Force a detection model; by default it's picked from the device (GPU, memory, data saver). */
+    detectQuality?: DetectQuality
+    /** Run "Detect surfaces" as soon as a new photo is opened; 'auto' does unless the browser asks to save data. */
+    autoDetect?: boolean | 'auto'
   }>(),
-  { room: null, categories: () => [], autosaveKey: 'madan-room-editor', saving: false, saveLabel: 'Save room', audience: 'staff', maxPhotoSide: 0 },
+  { room: null, categories: () => [], autosaveKey: 'madan-room-editor', saving: false, saveLabel: 'Save room', audience: 'staff', maxPhotoSide: 0, autoDetect: 'auto' },
 )
 const emit = defineEmits<{
   save: [room: Room, files: { image?: File }]
@@ -95,19 +100,55 @@ const embedError = ref<string | null>(null)
 
 // ---- Segmentation worker (lazy: created on first use)
 let client: SegmentClient | null = null
-const progress = ref<{ model: ModelName; percent: number } | null>(null)
+/** Latest download percent per model (both load at once). */
+const downloads = ref<Partial<Record<ModelName, number>>>({})
 function getClient(): SegmentClient | null {
   if (!props.createWorker) return null
   if (!client) {
     client = new SegmentClient(props.createWorker, props.workerConfig)
-    client.onProgress = (model, percent) => (progress.value = { model, percent })
+    client.onProgress = (model, percent) => {
+      downloads.value = { ...downloads.value, [model]: percent }
+    }
   }
   return client
 }
 onBeforeUnmount(() => client?.dispose())
 
 const tools = useMaskTools(state, getClient, () => ensureEmbedding())
-const detection = useDetection(state, tools, getClient)
+const detection = useDetection(state, tools, getClient, () => ensureEmbedding())
+
+// ---- Detection model: picked for this device and loaded in the background, so it's ready by
+// the time a photo is chosen. Nobody has to choose a model or wait on a separate download.
+const quality = ref<DetectQuality>(props.detectQuality ?? 'fast')
+const qualityReady: Promise<DetectQuality> = props.detectQuality
+  ? Promise.resolve(props.detectQuality)
+  : deviceInfo(props.audience === 'shopper' ? 'shopper' : 'staff').then(pickQuality).catch(() => 'fast' as const)
+const firstRun = ref(false)
+const download = computed(() => combinedDownload(downloads.value, quality.value, true))
+// Before any model has reported, "getting ready" starts the bar at 0 rather than done.
+const overall = computed(() => overallProgress(detection.phase.value, Object.keys(downloads.value).length ? download.value : 0, detection.step.value))
+
+onMounted(() => {
+  if (!props.createWorker) return
+  void qualityReady.then(async (q) => {
+    quality.value = q
+    firstRun.value = !(await isModelCached(SEGFORMERS[q].id))
+    // Data saver: nothing loads until someone asks for it.
+    if (saveData()) return
+    const idle = (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback
+    const start = () => void getClient()?.warm(q).catch(() => {
+      /* detect retries the load and reports the error then */
+    })
+    if (idle) idle(start, { timeout: 2000 })
+    else setTimeout(start, 500)
+  })
+})
+
+async function runDetection(img: HTMLImageElement) {
+  quality.value = await qualityReady
+  await detection.detect(img, quality.value)
+  firstRun.value = false
+}
 
 // ---- Photo
 const photo = shallowRef<HTMLImageElement | null>(null)
@@ -154,6 +195,7 @@ function openFile(file: File | undefined | null) {
     state.setImage(url, out.width, out.height, file.name.replace(/\.[^.]+$/, ''))
     photoError.value = null
     step.value = 'detect'
+    autoDetectPending = (props.autoDetect === 'auto' ? !saveData() : props.autoDetect) && !!props.createWorker
   }
   img.onerror = () => (photoError.value = 'That file is not an image the browser can read.')
   img.src = original
@@ -164,6 +206,14 @@ function onDrop(e: DragEvent) {
   dragging.value = false
   openFile(e.dataTransfer?.files?.[0])
 }
+
+// A new photo starts detecting as soon as it has loaded.
+let autoDetectPending = false
+watch(photo, (img) => {
+  if (!img || !autoDetectPending) return
+  autoDetectPending = false
+  if (!detection.running.value) void runDetection(img)
+})
 
 // ---- Loading the room to edit
 watch(
@@ -284,11 +334,17 @@ async function detachIdMap() {
 }
 
 function runDetect() {
-  if (photo.value) void detection.detect(photo.value)
+  if (photo.value) void runDetection(photo.value)
 }
 function acceptDetected() {
   detection.accept(defaultAccepts)
   step.value = 'refine'
+  // Start with the first surface that still needs something.
+  const next = state.doc.surfaces.find((s) => {
+    const st = state.statuses.value.get(s.uid)
+    return st && (!st.mask || !st.plane || !st.accepts)
+  })
+  if (next) state.activeUid.value = next.uid
 }
 
 // ---- Output
@@ -438,7 +494,7 @@ const workingNote = computed(() => {
             <Button v-if="tool === 'pen' && tools.pen.value.length >= 3" size="sm" variant="secondary" @click="tools.penClose()">Close shape</Button>
             <span v-if="tool === 'magic' && (embedding || tools.magicBusy.value)" class="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
               <Loader2 class="h-3.5 w-3.5 animate-spin" />
-              {{ embedding ? (progress?.model === 'sam' && progress.percent < 100 ? `Downloading magic select ${progress.percent}%` : 'Getting the photo ready…') : 'Selecting…' }}
+              {{ embedding ? ((downloads.sam ?? 100) < 100 ? `Getting magic select ready… ${downloads.sam}%` : 'Getting the photo ready…') : 'Selecting…' }}
             </span>
           </div>
 
@@ -498,10 +554,14 @@ const workingNote = computed(() => {
               :running="detection.running.value"
               :ran="detection.ran.value"
               :error="detection.error.value"
-              :progress="progress?.model === 'segformer' ? progress.percent : null"
+              :phase="detection.phase.value"
+              :download="download"
+              :overall="overall"
+              :first-run="firstRun"
               :available="!!createWorker && !!photo"
               @detect="runDetect"
               @toggle="detection.toggle"
+              @set-all="detection.setAll"
               @accept="acceptDetected"
               @dismiss="detection.dismiss"
             />

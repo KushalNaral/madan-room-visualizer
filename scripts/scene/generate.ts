@@ -139,6 +139,7 @@ for (const file of files) {
   const room = {
     id: def.id,
     name: def.name,
+    ...(def.roomType ? { roomType: def.roomType } : {}),
     imageUrl: `mock-rooms/${def.id}.png`,
     shadingUrl: `mock-rooms/${def.id}-shading.png`,
     idMapUrl: `mock-rooms/${def.id}-ids.png`,

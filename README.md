@@ -37,7 +37,7 @@ npm install
 npm run dev
 ```
 
-This opens the playground at http://localhost:5173. It contains the visualizer (mock catalog: 34 products, 119 variants, 3 rooms) and a **room editor**.
+This opens the playground at http://localhost:5173. It contains the visualizer (mock catalog: 34 products, 119 variants, 6 rooms: living, window lounge, family, drawing, bedroom, dining) and a **room editor**.
 
 | Script | What it does |
 | --- | --- |
@@ -157,7 +157,10 @@ What matters per variant:
 There are two routes:
 
 1. **Photograph and author** in the **room editor** (playground tab "Room editor", or Madan's dashboard). The steps are ① Photo → ② Detect → ③ Refine → ④ Preview & save.
-   - **Detect** runs SegFormer (ADE20K) in a worker. It proposes walls (split into planes at the room's corners), floor, ceiling, curtains, blinds, sofas, beds, rugs and cabinets, each with a fitted plane, a warp grid for curved ones, and suggested categories. Tick the ones to keep.
+   - **Detect** runs SegFormer (ADE20K) in a worker, by itself when a photo is opened (`autoDetect`). It proposes walls (split into planes at the room's corners), floor, ceiling, curtains, blinds, sofas, beds, rugs and cabinets, each with a fitted plane, a warp grid for curved ones, a confidence and suggested categories. Tick the ones to keep.
+     - There's no model to choose. `lib/readiness.ts` picks one for the device. *Accurate* is SegFormer-B5/640 over overlapping tiles, mirrored too; it needs WebGPU and ≥ 4 GB device memory (≥ 8 GB for shoppers). *Fast* is B2/512, used everywhere else, with data saver on, and when the accurate model fails to load. `detectQuality` forces one.
+     - The models load in the background when the editor opens (the worker's `warm` request), so they're usually ready before a photo is chosen. With data saver on, nothing loads until Detect. The panel shows one progress: "Getting ready… → Finding surfaces… → Tidying edges…", plus a "first time only" note when the browser hasn't cached the model yet.
+     - Probabilities are summed per surface type before each pixel is decided. Cushions join their sofa or bed, and holes in objects are filled. Objects' outlines are always sharpened with SlimSAM box prompts when the worker is there: SegFormer's core is kept and SAM's edge is taken (`src/editor/lib/detectPost.ts`, `src/editor/ai/semantic.ts`).
    - **Magic select** (SlimSAM) selects a thing with one click. Alt/right-click removes a part.
    - **Brush, Eraser and Pen** fix what the models miss.
    - **Plane / Warp**: drag the 4 corners (or the grid). The grid turns amber when the plane is twisted.

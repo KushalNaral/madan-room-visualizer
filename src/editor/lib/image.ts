@@ -19,10 +19,20 @@ export const fitScale = (width: number, height: number, maxSide: number) => Math
 /** RGBA pixels of an image, downscaled so the long side is at most `maxSide`. */
 export function rasterOf(img: CanvasImageSource & { naturalWidth?: number; width: number; height: number }, width: number, height: number, maxSide: number): RasterImage {
   const s = fitScale(width, height, maxSide)
-  const w = Math.max(1, Math.round(width * s)), h = Math.max(1, Math.round(height * s))
+  return rasterAt(img, Math.max(1, Math.round(width * s)), Math.max(1, Math.round(height * s)))
+}
+
+/** RGBA pixels scaled (up or down) so the short side is `side` px: a segmentation model's own scale. */
+export function rasterShortSide(img: CanvasImageSource, width: number, height: number, side: number): RasterImage {
+  const s = side / Math.min(width, height)
+  return rasterAt(img, Math.max(1, Math.round(width * s)), Math.max(1, Math.round(height * s)))
+}
+
+function rasterAt(img: CanvasImageSource, w: number, h: number): RasterImage {
   const ctx = document.createElement('canvas').getContext('2d', { willReadFrequently: true })!
   ctx.canvas.width = w
   ctx.canvas.height = h
+  ctx.imageSmoothingQuality = 'high'
   ctx.drawImage(img, 0, 0, w, h)
   return { data: ctx.getImageData(0, 0, w, h).data, width: w, height: h }
 }

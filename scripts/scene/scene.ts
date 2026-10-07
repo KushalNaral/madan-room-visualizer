@@ -60,6 +60,8 @@ export interface Preset {
 export interface SceneDef {
   id: string
   name: string
+  /** Kind of room for hosts that group rooms (living, bedroom, dining…); defaults to the id. */
+  roomType?: string
   camera: CameraDef
   exposure: number
   build(b: SceneBuilder): void

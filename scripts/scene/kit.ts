@@ -135,3 +135,108 @@ export function downlight(b: SceneBuilder, pos: Vec3, mat: number, trim: number)
   b.cylinder(frame(sub(pos, [0, 0.004, 0])), 0.07, 0.07, 0.004, trim, { segments: 24 })
   b.cylinder(frame(sub(pos, [0, 0.006, 0])), 0.045, 0.045, 0.003, mat, { segments: 24 })
 }
+
+/** Upholstered pieces placed in a rotated frame (yaw in degrees; local +z is the front). */
+function upholstery(b: SceneBuilder, origin: Vec3, yaw: number, mat: number, surface?: number) {
+  const f0 = frame([0, 0, 0], yaw)
+  return (p: Vec3, size: Vec3, opts: { bulge?: number; round?: number; pitch?: number; faces?: string; mat?: number; surface?: number } = {}) => {
+    const off = f0.dir(p)
+    b.box(frame([origin[0] + off[0], origin[1] + p[1], origin[2] + off[2]], yaw, opts.pitch ?? 0), size, opts.mat ?? mat, {
+      surface: opts.surface ?? surface, bulge: opts.bulge, round: opts.round, faces: opts.faces ?? 'flrtb', res: 10,
+    })
+  }
+}
+
+export interface SofaSpec {
+  /** Floor point under the middle of the sofa. */
+  pos: Vec3
+  /** Degrees; 0 faces +z. */
+  yaw: number
+  seats: number
+  seatW?: number
+  depth?: number
+  mat: number
+  surface?: number
+  legMat: number
+  /** Thicker, rounder arms (a rolled-arm look). */
+  rolled?: boolean
+  /** Extra chaise length (m) in front of the seat at the left (-1) or right (+1) end. */
+  chaise?: { side: -1 | 1; length: number }
+}
+
+/** A box-built sofa: base, arms, back, seat and back cushions, legs. Returns its half width. */
+export function sofa(b: SceneBuilder, s: SofaSpec): number {
+  const seatW = s.seatW ?? 0.64
+  const D = s.depth ?? 0.98
+  const armW = s.rolled ? 0.24 : 0.18
+  const inner = seatW * s.seats + 0.02
+  const W = inner + armW * 2
+  const piece = upholstery(b, s.pos, s.yaw, s.mat, s.surface)
+  piece([0, 0.1, 0], [W, 0.3, D], { round: 0.01 })
+  const armH = s.rolled ? 0.3 : 0.24
+  for (const side of [-1, 1]) piece([side * (W / 2 - armW / 2), 0.4, 0], [armW, armH, D], { bulge: s.rolled ? 0.05 : 0.02, round: s.rolled ? 0.05 : 0.02 })
+  piece([0, 0.4, -D / 2 + 0.09], [inner, 0.42, 0.18], { bulge: 0.015 })
+  for (let i = 0; i < s.seats; i++) {
+    const dx = -inner / 2 + seatW * (i + 0.5) + 0.01
+    piece([dx, 0.4, 0.08], [seatW - 0.005, 0.15, D - 0.2], { bulge: 0.035, round: 0.025 })
+    piece([dx, 0.53, -D / 2 + 0.23], [seatW - 0.02, 0.48, 0.2], { bulge: 0.05, round: 0.03, pitch: -12 })
+  }
+  if (s.chaise) {
+    // The chaise replaces the arm on its side and runs forward.
+    const cx = s.chaise.side * (inner / 2 - seatW / 2 + 0.01)
+    const cz = D / 2 + s.chaise.length / 2
+    piece([cx, 0.1, cz], [seatW + 0.02, 0.3, s.chaise.length], { round: 0.01 })
+    piece([cx, 0.4, cz - 0.02], [seatW - 0.005, 0.15, s.chaise.length + 0.02], { bulge: 0.035, round: 0.025 })
+  }
+  const f0 = frame([0, 0, 0], s.yaw)
+  const legs: Vec3[] = [[-W / 2 + 0.08, 0, -D / 2 + 0.08], [W / 2 - 0.08, 0, -D / 2 + 0.08], [-W / 2 + 0.08, 0, D / 2 - 0.08], [W / 2 - 0.08, 0, D / 2 - 0.08]]
+  if (s.chaise) legs.push([s.chaise.side * (inner / 2 - 0.05), 0, D / 2 + s.chaise.length - 0.08])
+  for (const l of legs) {
+    const o = f0.dir(l)
+    b.cylinder(frame([s.pos[0] + o[0], 0, s.pos[2] + o[2]]), 0.025, 0.018, 0.1, s.legMat, { segments: 12 })
+  }
+  return W / 2
+}
+
+/** One armchair (a one-seat sofa with a deeper back). */
+export function armchair(b: SceneBuilder, pos: Vec3, yaw: number, mat: number, legMat: number, surface?: number) {
+  const piece = upholstery(b, pos, yaw, mat, surface)
+  piece([0, 0.14, 0], [0.82, 0.28, 0.82], { round: 0.015 })
+  piece([0, 0.42, 0.06], [0.58, 0.13, 0.66], { bulge: 0.035, round: 0.025 })
+  piece([0, 0.42, -0.33], [0.82, 0.5, 0.16], { bulge: 0.03, round: 0.02, pitch: -8 })
+  piece([-0.34, 0.42, 0.02], [0.14, 0.24, 0.78], { bulge: 0.015, round: 0.02 })
+  piece([0.34, 0.42, 0.02], [0.14, 0.24, 0.78], { bulge: 0.015, round: 0.02 })
+  const f0 = frame([0, 0, 0], yaw)
+  for (const dx of [-0.35, 0.35]) for (const dz of [-0.35, 0.35]) {
+    const o = f0.dir([dx, 0, dz])
+    b.cylinder(frame([pos[0] + o[0], 0, pos[2] + o[2]]), 0.022, 0.016, 0.14, legMat, { segments: 12 })
+  }
+}
+
+/** A throw cushion leaning back at `pos` (centre), facing `yaw`. */
+export function cushion(b: SceneBuilder, pos: Vec3, yaw: number, mat: number, surface?: number, size = 0.46) {
+  b.box(frame(pos, yaw, -16), [size, size * 0.95, 0.13], mat, { surface, bulge: 0.07, round: 0.04, res: 10 })
+}
+
+/**
+ * A curtain track along a wall with hanging panels. `u` positions are metres along the wall
+ * (from its left edge, seen from inside), `offset` how far into the room the track sits.
+ */
+export function curtains(
+  b: SceneBuilder,
+  w: WallSpec,
+  opts: { top: number; drop: number; offset: number; panels: { u: number; width: number; folds?: number; depth?: number }[]; mat: number; surface?: number; rodMat?: number; rod?: [number, number] },
+) {
+  const up: Vec3 = [0, 1, 0]
+  const inward = norm(cross(w.right, up))
+  const yaw = (Math.atan2(w.right[2], w.right[0]) * -180) / Math.PI
+  const at = (u: number, y: number): Vec3 => add(add(add(w.origin, mul(w.right, u)), mul(up, y)), mul(inward, opts.offset))
+  if (opts.rodMat !== undefined && opts.rod) {
+    const [u0, u1] = opts.rod
+    const mid = at((u0 + u1) / 2, opts.top + 0.02)
+    b.box(frame(mid, yaw), [u1 - u0, 0.03, 0.03], opts.rodMat, { faces: 'flrtd' })
+  }
+  for (const p of opts.panels) {
+    b.curtain(frame(at(p.u, opts.top), yaw), p.width, opts.drop, p.folds ?? Math.max(3, Math.round(p.width * 7)), p.depth ?? 0.045, opts.mat, { surface: opts.surface })
+  }
+}

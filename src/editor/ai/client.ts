@@ -1,4 +1,4 @@
-import type { DetectResult, ModelName, Prompt, RasterImage, SegmentResult, WorkerConfig, WorkerRequest, WorkerResponse } from './protocol'
+import type { BoxPrompt, DetectOptions, DetectQuality, DetectResult, ModelName, Prompt, RasterImage, RefineResult, SegmentResult, WorkerConfig, WorkerRequest, WorkerResponse } from './protocol'
 
 type Pending = { resolve: (v: any) => void; reject: (e: Error) => void }
 type DistributiveOmit<T, K extends keyof any> = T extends unknown ? Omit<T, K> : never
@@ -15,6 +15,8 @@ export class SegmentClient {
   private pending = new Map<number, Pending>()
   /** Called with download progress (0–100) while a model loads. */
   onProgress: ((model: ModelName, percent: number) => void) | null = null
+  /** Called as detection works through the photo's tiles. */
+  onStage: ((done: number, total: number) => void) | null = null
 
   constructor(
     private readonly create: () => Worker,
@@ -26,7 +28,10 @@ export class SegmentClient {
     const w = this.create()
     w.onmessage = (e: MessageEvent<WorkerResponse>) => {
       const msg = e.data
-      if (msg.type === 'progress') return this.onProgress?.(msg.model, msg.progress)
+      if (msg.type === 'progress') {
+        if (msg.stage) return this.onStage?.(msg.stage.done, msg.stage.total)
+        return this.onProgress?.(msg.model, msg.progress)
+      }
       const p = this.pending.get(msg.id)
       if (!p) return
       this.pending.delete(msg.id)
@@ -51,9 +56,20 @@ export class SegmentClient {
     })
   }
 
-  /** Semantic segmentation of the whole photo (SegFormer ADE20K labels). */
-  detect(image: RasterImage): Promise<DetectResult> {
-    return this.call({ type: 'detect', image })
+  /** Semantic segmentation of the whole photo into the given groups of ADE20K classes. */
+  detect(image: RasterImage, options: DetectOptions): Promise<DetectResult> {
+    return this.call({ type: 'detect', image, options })
+  }
+
+  /** Downloads and prepares the models in the background; detect and magic select then start at once. */
+  warm(quality: DetectQuality, sam = true): Promise<true> {
+    return this.call({ type: 'warm', quality, sam })
+  }
+
+  /** SAM masks for a box on the embedded photo (call embed first). */
+  refine(prompt: BoxPrompt): Promise<RefineResult> {
+    const points = prompt.points.map((p) => ({ x: p.x, y: p.y, positive: p.positive }))
+    return this.call({ type: 'refine', prompt: { box: [...prompt.box] as BoxPrompt['box'], points } })
   }
 
   /** Prepares magic select for a photo (one image embedding). */
@@ -72,5 +88,20 @@ export class SegmentClient {
     this.worker = null
     for (const p of this.pending.values()) p.reject(new Error('Segmentation stopped'))
     this.pending.clear()
+  }
+}
+
+/**
+ * Whether the browser already holds a model's weights (transformers.js keeps them in Cache
+ * Storage), so the editor knows if "first time only" applies.
+ */
+export async function isModelCached(modelId: string): Promise<boolean> {
+  try {
+    if (typeof caches === 'undefined') return false
+    const cache = await caches.open('transformers-cache')
+    const keys = await cache.keys()
+    return keys.some((r) => r.url.includes(`/${modelId}/`) && r.url.endsWith('.onnx'))
+  } catch {
+    return false
   }
 }
