@@ -144,7 +144,7 @@ export class RoomRenderer {
   outlineColor: [number, number, number] = [0.85, 0.45, 0.15]
   /** Outline thickness in image pixels (set from the display scale for a constant on-screen width). */
   outlinePx = 3
-  dimOthers = 0.18
+  dimOthers = 0.08
   showHighlights = true
 
   constructor(private canvas: HTMLCanvasElement) {

@@ -2090,5 +2090,196 @@
         "price": 4400
       }
     ]
+  },
+  {
+    "id": "roller-screen",
+    "sku": "MF-BL-RS",
+    "name": "Sunscreen Roller Blind",
+    "categoryId": "blind",
+    "description": "Light-filtering screen fabric: cuts glare, keeps the view. Made to measure.",
+    "brand": "Madan Furnishers",
+    "badges": [
+      "New"
+    ],
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.05
+    },
+    "variants": [
+      {
+        "id": "roller-screen-v1",
+        "sku": "MF-BL-RS-01",
+        "name": "White",
+        "colorHex": "#ecebe7",
+        "textureUrl": "procedural:weave?base=%23ecebe7&alt=%23d9d7d1",
+        "tileSizeCm": {
+          "w": 10,
+          "h": 10
+        },
+        "finish": "matte",
+        "price": 2900
+      },
+      {
+        "id": "roller-screen-v2",
+        "sku": "MF-BL-RS-02",
+        "name": "Grey",
+        "colorHex": "#9a9a98",
+        "textureUrl": "procedural:weave?base=%239a9a98&alt=%23858583",
+        "tileSizeCm": {
+          "w": 10,
+          "h": 10
+        },
+        "finish": "matte",
+        "price": 2900
+      },
+      {
+        "id": "roller-screen-v3",
+        "sku": "MF-BL-RS-03",
+        "name": "Charcoal",
+        "colorHex": "#4a4a4b",
+        "textureUrl": "procedural:weave?base=%234a4a4b&alt=%233a3a3b",
+        "tileSizeCm": {
+          "w": 10,
+          "h": 10
+        },
+        "finish": "matte",
+        "price": 2900
+      },
+      {
+        "id": "roller-screen-v4",
+        "sku": "MF-BL-RS-04",
+        "name": "Linen",
+        "colorHex": "#cbbfa9",
+        "textureUrl": "procedural:weave?base=%23cbbfa9&alt=%23b8ab94",
+        "tileSizeCm": {
+          "w": 10,
+          "h": 10
+        },
+        "finish": "matte",
+        "price": 2900
+      }
+    ]
+  },
+  {
+    "id": "roller-blackout",
+    "sku": "MF-BL-RB",
+    "name": "Blackout Roller Blind",
+    "categoryId": "blind",
+    "description": "Room-darkening coated fabric for bedrooms and media rooms. Made to measure.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.05
+    },
+    "variants": [
+      {
+        "id": "roller-blackout-v1",
+        "sku": "MF-BL-RB-01",
+        "name": "Oatmeal",
+        "colorHex": "#d6cbb7",
+        "textureUrl": "procedural:percale?base=%23d6cbb7&alt=%23c8bca6",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "matte",
+        "price": 3400
+      },
+      {
+        "id": "roller-blackout-v2",
+        "sku": "MF-BL-RB-02",
+        "name": "Stone",
+        "colorHex": "#b3ada3",
+        "textureUrl": "procedural:percale?base=%23b3ada3&alt=%23a39d93",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "matte",
+        "price": 3400
+      },
+      {
+        "id": "roller-blackout-v3",
+        "sku": "MF-BL-RB-03",
+        "name": "Charcoal",
+        "colorHex": "#46474a",
+        "textureUrl": "procedural:percale?base=%2346474a&alt=%2338393c",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "matte",
+        "price": 3400
+      },
+      {
+        "id": "roller-blackout-v4",
+        "sku": "MF-BL-RB-04",
+        "name": "White",
+        "colorHex": "#f1f0ec",
+        "textureUrl": "procedural:percale?base=%23f1f0ec&alt=%23e4e2dc",
+        "tileSizeCm": {
+          "w": 40,
+          "h": 40
+        },
+        "finish": "matte",
+        "price": 3400
+      }
+    ]
+  },
+  {
+    "id": "vertical-vane",
+    "sku": "MF-BL-VV",
+    "name": "Vertical Blind",
+    "categoryId": "blind",
+    "description": "89 mm fabric vanes that turn and stack aside, for wide windows and doors.",
+    "brand": "Madan Furnishers",
+    "pricing": {
+      "unit": "m²",
+      "coverageM2": 1,
+      "wastage": 0.05
+    },
+    "variants": [
+      {
+        "id": "vertical-vane-v1",
+        "sku": "MF-BL-VV-01",
+        "name": "White",
+        "colorHex": "#efeeea",
+        "textureUrl": "procedural:linen?base=%23efeeea&alt=%23dedcd6",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 2200
+      },
+      {
+        "id": "vertical-vane-v2",
+        "sku": "MF-BL-VV-02",
+        "name": "Pebble",
+        "colorHex": "#c4bdb1",
+        "textureUrl": "procedural:linen?base=%23c4bdb1&alt=%23b2aa9d",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 2200
+      },
+      {
+        "id": "vertical-vane-v3",
+        "sku": "MF-BL-VV-03",
+        "name": "Dove Grey",
+        "colorHex": "#a9aaa9",
+        "textureUrl": "procedural:linen?base=%23a9aaa9&alt=%23959695",
+        "tileSizeCm": {
+          "w": 20,
+          "h": 20
+        },
+        "finish": "matte",
+        "price": 2200
+      }
+    ]
   }
 ]

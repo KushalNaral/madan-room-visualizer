@@ -131,7 +131,6 @@ const def: SceneDef = {
   name: 'Family room',
   roomType: 'living',
   camera: { pos: [0.75, 1.4, 0.35], target: [-0.75, 0.98, -5.4], fovY: 56, width: 1600, height: 1000 },
-  exposure: 1.4,
   build,
   presets: [
     {

@@ -63,7 +63,8 @@ export interface SceneDef {
   /** Kind of room for hosts that group rooms (living, bedroom, dining…); defaults to the id. */
   roomType?: string
   camera: CameraDef
-  exposure: number
+  /** Fixed exposure; omit to auto-expose swappable surfaces to TARGET_LIGHT. */
+  exposure?: number
   build(b: SceneBuilder): void
   presets?: Preset[]
 }

@@ -165,7 +165,6 @@ const def: SceneDef = {
   id: 'bedroom',
   name: 'Bedroom',
   camera: { pos: [-0.75, 1.38, 0.95], target: [0.55, 0.95, -5.6], fovY: 52, width: 1600, height: 1000 },
-  exposure: 1.4,
   build,
   presets: [
     {

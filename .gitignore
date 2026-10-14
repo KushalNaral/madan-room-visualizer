@@ -4,3 +4,8 @@ dist-playground
 *.local
 screenshots
 .claude/
+
+# Blender room pipeline: downloaded CC0 assets and render intermediates
+scripts/blender/assets/
+.blender-out/
+__pycache__/

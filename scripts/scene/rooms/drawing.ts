@@ -121,7 +121,6 @@ const def: SceneDef = {
   name: 'Drawing room',
   roomType: 'living',
   camera: { pos: [0.15, 1.45, 0.75], target: [0.0, 1.2, -5.8], fovY: 52, width: 1600, height: 1000 },
-  exposure: 1.4,
   build,
   presets: [
     {

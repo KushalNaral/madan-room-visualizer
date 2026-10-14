@@ -84,6 +84,7 @@ for (const file of files) {
   let last = ''
   const out = await renderScene(modulePath, def, preview ? 1 : quality, (m) => {
     const pct = m.split(': ')[1]
+    if (pct.startsWith('exposure')) return console.log(`\r${m}`)
     if (pct !== last && /0%$/.test(pct)) process.stdout.write(`\r${m}   `)
     last = pct
   })

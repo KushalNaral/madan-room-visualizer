@@ -174,7 +174,6 @@ const def: SceneDef = {
   id: 'dining',
   name: 'Kitchen & dining',
   camera: { pos: [0.75, 1.48, 1.0], target: [-0.35, 1.0, -5.8], fovY: 52, width: 1600, height: 1000 },
-  exposure: 1.35,
   build,
   presets: [
     {

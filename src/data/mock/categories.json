@@ -43,5 +43,10 @@
     "id": "laminate",
     "name": "Laminates",
     "icon": "panels-top-left"
+  },
+  {
+    "id": "blind",
+    "name": "Blinds",
+    "icon": "blinds"
   }
 ]

@@ -13,6 +13,7 @@ const categories = [
   { id: 'curtain', name: 'Curtains', icon: 'blinds' },
   { id: 'bedding', name: 'Bedding', icon: 'bed-double' },
   { id: 'laminate', name: 'Laminates', icon: 'panels-top-left' },
+  { id: 'blind', name: 'Blinds', icon: 'blinds' },
 ]
 
 const PRICING = {
@@ -25,6 +26,7 @@ const PRICING = {
   curtain: { unit: 'metre', coverageM2: 1.4, wastage: 0.1 },
   bedding: { unit: 'piece' },
   laminate: { unit: 'm²', coverageM2: 1, wastage: 0.15 },
+  blind: { unit: 'm²', coverageM2: 1, wastage: 0.05 },
 }
 
 function product(p) {
@@ -169,6 +171,16 @@ const products = [
   product({ id: 'fluted-oak', sku: 'MF-LM-FO', name: 'Fluted Oak Panel', categoryId: 'laminate', kind: 'fluted', tile: { w: 30, h: 60 }, finish: 'matte', price: 4400, badges: ['New'],
     description: 'Reeded oak-look panel for a tactile, architectural front.',
     variants: [['Natural', '#c19a6b', '#a07d52'], ['Black', '#2a2827', '#1c1b1a']] }),
+  // ---- Blinds
+  product({ id: 'roller-screen', sku: 'MF-BL-RS', name: 'Sunscreen Roller Blind', categoryId: 'blind', kind: 'weave', tile: { w: 10, h: 10 }, finish: 'matte', price: 2900, badges: ['New'],
+    description: 'Light-filtering screen fabric: cuts glare, keeps the view. Made to measure.',
+    variants: [['White', '#ecebe7', '#d9d7d1'], ['Grey', '#9a9a98', '#858583'], ['Charcoal', '#4a4a4b', '#3a3a3b'], ['Linen', '#cbbfa9', '#b8ab94']] }),
+  product({ id: 'roller-blackout', sku: 'MF-BL-RB', name: 'Blackout Roller Blind', categoryId: 'blind', kind: 'percale', tile: { w: 40, h: 40 }, finish: 'matte', price: 3400,
+    description: 'Room-darkening coated fabric for bedrooms and media rooms. Made to measure.',
+    variants: [['Oatmeal', '#d6cbb7', '#c8bca6'], ['Stone', '#b3ada3', '#a39d93'], ['Charcoal', '#46474a', '#38393c'], ['White', '#f1f0ec', '#e4e2dc']] }),
+  product({ id: 'vertical-vane', sku: 'MF-BL-VV', name: 'Vertical Blind', categoryId: 'blind', kind: 'linen', tile: { w: 20, h: 20 }, finish: 'matte', price: 2200,
+    description: '89 mm fabric vanes that turn and stack aside, for wide windows and doors.',
+    variants: [['White', '#efeeea', '#dedcd6'], ['Pebble', '#c4bdb1', '#b2aa9d'], ['Dove Grey', '#a9aaa9', '#959695']] }),
 ]
 
 const outDir = path.join(__dirname, '..', 'src', 'data', 'mock')

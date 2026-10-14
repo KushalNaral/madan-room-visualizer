@@ -30,7 +30,17 @@ float idMatch(sampler2D ids, vec2 uv, vec3 color) {
 }
 vec3 toLinear(vec3 c) { return pow(c, vec3(2.2)); }
 vec3 toSrgb(vec3 c) { return pow(clamp(c, 0.0, 1.0), vec3(1.0 / 2.2)); }
-vec3 aces(vec3 x) { return clamp((x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14), 0.0, 1.0); }
+// Khronos PBR Neutral: colours pass through unchanged up to ~0.8, only highlights roll
+// off, so a fabric under normal light shows as its swatch. Must match the room exporters.
+vec3 tonemap(vec3 c) {
+  float x = min(c.r, min(c.g, c.b));
+  c -= x < 0.08 ? x - 6.25 * x * x : 0.04;
+  float peak = max(c.r, max(c.g, c.b));
+  if (peak < 0.76) return c;
+  float newPeak = 1.0 - 0.0576 / (peak - 0.52);
+  c *= newPeak / peak;
+  return mix(c, vec3(newPeak), 1.0 - 1.0 / (0.15 * (peak - newPeak) + 1.0));
+}
 `
 
 /**
@@ -98,7 +108,7 @@ void main() {
     vec3 lit = material * E;
     // Glossy finishes catch a little extra light where the room is brightest.
     lit += u_gloss * 0.06 * E * E;
-    color = toSrgb(aces(lit));
+    color = toSrgb(tonemap(lit));
   } else {
     vec3 photo = toLinear(texture(u_photo, p / u_size).rgb);
     float lum = dot(photo, vec3(0.2126, 0.7152, 0.0722));

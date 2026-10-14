@@ -8,6 +8,8 @@ import dining from './mock/rooms/dining.json'
 import lounge from './mock/rooms/lounge.json'
 import family from './mock/rooms/family.json'
 import drawing from './mock/rooms/drawing.json'
+import sectionalLiving from './mock/rooms/sectional-living.json'
+import contemporaryBedroom from './mock/rooms/contemporary-bedroom.json'
 
 export interface MockProductSourceOptions {
   categories?: Category[]
@@ -41,7 +43,7 @@ export class MockProductSource implements ProductSource {
     const base = opts.assetBase ?? (import.meta.env?.BASE_URL || '/')
     this.categories = opts.categories ?? categories
     this.products = opts.products ?? (products as Product[])
-    this.rooms = (opts.rooms ?? ([living, lounge, family, drawing, bedroom, dining] as Room[])).map((r) => withBase(r, base))
+    this.rooms = (opts.rooms ?? ([sectionalLiving, contemporaryBedroom, living, lounge, family, drawing, bedroom, dining] as Room[])).map((r) => withBase(r, base))
     this.latency = opts.latency ?? 0
   }
 

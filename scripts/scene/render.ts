@@ -8,6 +8,7 @@ import { Worker, isMainThread, parentPort, workerData } from 'node:worker_thread
 import { cpus } from 'node:os'
 import { BVH, type Hit } from './bvh.ts'
 import { add, cross, dot, len, mul, norm, sub, type Vec3 } from './math.ts'
+import { autoExposure, tonemap } from '../../src/render/tonemap.ts'
 import { SceneBuilder, type CameraDef, type ColorFn, type Material, type SceneDef } from './scene.ts'
 
 const SS = 2 // subsamples per axis
@@ -243,9 +244,6 @@ export interface RenderOutput {
   camera: Camera
 }
 
-function aces(x: number) {
-  return Math.min(1, Math.max(0, (x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14)))
-}
 function toSrgb(x: number) {
   return x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055
 }
@@ -332,7 +330,13 @@ export async function renderScene(modulePath: string, def: SceneDef, quality = 2
   const w1 = def.camera.width, h1 = def.camera.height
   const photo = new Uint8Array(w1 * h1 * 3)
   const shading = new Uint8Array(w1 * h1 * 3)
-  const ex = def.exposure
+  // Auto-exposure: the swappable surfaces get a well-lit median, so fabrics show true to swatch.
+  const lit: number[] = []
+  for (let k = 0; k < W * H; k += 7) if (surface[k] >= 0) lit.push(irr[k * 3] * 0.2126 + irr[k * 3 + 1] * 0.7152 + irr[k * 3 + 2] * 0.0722)
+  const auto = autoExposure(lit)
+  const median = auto.median
+  const ex = def.exposure ?? auto.exposure
+  onProgress?.(`${def.id}: exposure ${ex.toFixed(2)} (median light ${median.toFixed(2)})`)
   for (let y = 0; y < h1; y++) {
     for (let x = 0; x < w1; x++) {
       const c: Vec3 = [0, 0, 0]
@@ -352,9 +356,9 @@ export async function renderScene(modulePath: string, def: SceneDef, quality = 2
           }
         }
       }
+      const shown = tonemap((c[0] / (SS * SS)) * ex, (c[1] / (SS * SS)) * ex, (c[2] / (SS * SS)) * ex)
       for (let ch = 0; ch < 3; ch++) {
-        const lin = (c[ch] / (SS * SS)) * ex
-        photo[(y * w1 + x) * 3 + ch] = Math.round(toSrgb(aces(lin)) * 255)
+        photo[(y * w1 + x) * 3 + ch] = Math.round(toSrgb(Math.min(1, Math.max(0, shown[ch]))) * 255)
         const e = (s[ch] / Math.max(1, sn)) * ex
         shading[(y * w1 + x) * 3 + ch] = Math.round(Math.sqrt(Math.min(1, e / 4)) * 255)
       }
